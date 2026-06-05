@@ -1,4 +1,4 @@
-HDFC Mutual Fund Facts
+HDFC Mutual Fund Facts (as per Fund Facts May 2026)
 
 HDFC Flexi Cap Fund:
 - Expense Ratio (Direct Plan): 0.85%
@@ -6,35 +6,35 @@ HDFC Flexi Cap Fund:
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
 - Benchmark Index: NIFTY 500 Index (Total Returns Index)
 - Riskometer Classification: Moderately High
-- Fund Manager: Chirag Setalvad
-- AUM (Assets Under Management): ₹52,347 crore
+- Fund Manager: Amit Ganatra (since February 01, 2026)
+- AUM (Assets Under Management): ₹1,00,479.23 crore
 
 HDFC Mid Cap Fund:
-- Expense Ratio (Direct Plan): 0.95%
+- Expense Ratio (Direct Plan): 0.80%
 - Minimum SIP Amount: ₹100
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
-- Benchmark Index: NIFTY Midcap 150 Index (Total Returns Index)
+- Benchmark Index: Nifty Midcap 150 Index (Total Returns Index)
 - Riskometer Classification: Very High
-- Fund Manager: Srinivas Rao Ravuri
-- AUM (Assets Under Management): ₹41,892 crore
+- Fund Manager: Chirag Setalvad (since June 25, 2007)
+- AUM (Assets Under Management): ₹94,744.72 crore
 
 HDFC Small Cap Fund:
-- Expense Ratio (Direct Plan): 1.05%
+- Expense Ratio (Direct Plan): 0.88%
 - Minimum SIP Amount: ₹100
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
-- Benchmark Index: NIFTY Smallcap 250 Index (Total Returns Index)
+- Benchmark Index: BSE 250 SmallCap Index (TRI)
 - Riskometer Classification: Very High
-- Fund Manager: Srinivas Rao Ravuri
-- AUM (Assets Under Management): ₹32,145 crore
+- Fund Manager: Chirag Setalvad (since June 28, 2014)
+- AUM (Assets Under Management): ₹38,168.18 crore
 
 HDFC Defence Fund:
 - Expense Ratio (Direct Plan): 1.15%
 - Minimum SIP Amount: ₹500
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
-- Benchmark Index: NIFTY India Defence Index (Total Returns Index)
+- Benchmark Index: Nifty India Defence Index TRI (Total Returns Index)
 - Riskometer Classification: Very High
-- Fund Manager: Amit Sethiya
-- AUM (Assets Under Management): ₹15,678 crore
+- Fund Manager: Rahul Baijal & Priya Ranjan (w.e.f. April 18, 2025)
+- AUM (Assets Under Management): ₹9,123.61 crore
 
 HDFC Silver ETF Fund of Fund:
 - Expense Ratio (Direct Plan): 0.25%

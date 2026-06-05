@@ -17,7 +17,8 @@ def get_metadata(filename):
                     'source': row.get('source', ''),
                     'type': row.get('type', ''),
                     'scheme': row.get('scheme', ''),
-                    'url': url
+                    'url': url,
+                    'doc_date': row.get('doc_date', '')
                 }
     return {}
 
@@ -85,6 +86,7 @@ def main():
             f.write(f"TYPE: {metadata.get('type', '')}\n")
             f.write(f"SCHEME: {metadata.get('scheme', '')}\n")
             f.write(f"URL: {metadata.get('url', '')}\n")
+            f.write(f"DOC_DATE: {metadata.get('doc_date', '')}\n")
             f.write("="*80 + "\n")
             f.write(text)
         

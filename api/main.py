@@ -1,5 +1,6 @@
 import logging
 from contextlib import asynccontextmanager
+from typing import List, Optional
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -44,6 +45,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class SourceDocument(BaseModel):
+    url: str
+    type: str
+    scheme: str
+    doc_date: str
+
+
 class QueryRequest(BaseModel):
     question: str
 
@@ -52,6 +60,7 @@ class QueryResponse(BaseModel):
     answer: str
     citation_url: str
     last_updated: str
+    source_documents: Optional[List[SourceDocument]] = None
 
 @app.get("/health")
 def health_check():
@@ -79,7 +88,8 @@ def ask_question(request: QueryRequest):
             status="answered",
             answer=result['answer'],
             citation_url=result['citation_url'],
-            last_updated=result['last_updated']
+            last_updated=result['last_updated'],
+            source_documents=result.get('source_documents', []),
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

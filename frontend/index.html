@@ -543,7 +543,7 @@
 
                     // Remove loading indicator and add assistant message
                     removeLoadingMessage(loadingId);
-                    addAssistantMessage(data.answer);
+                    addAssistantMessage(data.answer, data.citation_url, data.source_documents);
 
                     // Scroll to bottom
                     chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -563,7 +563,7 @@
                             "Sorry, I encountered an error. Please try again later.";
                     }
 
-                    addAssistantMessage(errorMessage);
+                    addAssistantMessage(errorMessage, null, []);
                     console.error("Error:", error);
                 }
             }
@@ -611,9 +611,68 @@
             }
 
             // Add assistant message to chat
-            function addAssistantMessage(text) {
+            function addAssistantMessage(text, citationUrl, sourceDocuments) {
                 // Convert newlines to <br>
                 const formattedText = text.replace(/\n/g, "<br/>");
+
+                // Build citation section
+                let citationHtml = "";
+                if (citationUrl && citationUrl.startsWith("https://")) {
+                    citationHtml = `
+                        <div class="flex items-center gap-1.5 text-xs text-secondary mt-2">
+                            <span class="material-symbols-outlined text-sm" data-icon="link">link</span>
+                            <span>Source: <a href="${citationUrl}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">${citationUrl.length > 50 ? citationUrl.substring(0, 50) + '...' : citationUrl}</a></span>
+                        </div>
+                    `;
+                } else if (citationUrl && !citationUrl.startsWith("https://")) {
+                    citationHtml = `
+                        <div class="flex items-center gap-1.5 text-xs text-secondary mt-2 italic">
+                            <span class="material-symbols-outlined text-sm" data-icon="info">info</span>
+                            <span>${citationUrl}</span>
+                        </div>
+                    `;
+                }
+
+                // Build source documents section (collapsible)
+                let sourcesHtml = "";
+                if (sourceDocuments && sourceDocuments.length > 0) {
+                    const sourceItems = sourceDocuments.map(src => {
+                        const typeLabel = src.type || "Unknown";
+                        const schemeLabel = src.scheme || "";
+                        const dateLabel = src.doc_date || "N/A";
+                        const urlLabel = src.url || "";
+                        const urlLink = urlLabel.startsWith("https://")
+                            ? `<a href="${urlLabel}" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline truncate max-w-[200px] inline-block align-bottom">${urlLabel.length > 40 ? urlLabel.substring(0, 40) + '...' : urlLabel}</a>`
+                            : `<span class="truncate max-w-[200px] inline-block align-bottom text-secondary">${urlLabel}</span>`;
+                        return `
+                            <div class="flex items-start gap-2 py-1.5 border-b border-outline-variant/50 last:border-0">
+                                <span class="material-symbols-outlined text-sm text-secondary mt-0.5" data-icon="article">article</span>
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="text-xs font-semibold text-on-surface bg-surface-container px-1.5 py-0.5 rounded">${typeLabel}</span>
+                                        <span class="text-xs text-secondary">${schemeLabel}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 mt-0.5">
+                                        <span class="text-xs text-secondary">Date: ${dateLabel}</span>
+                                        ${urlLink}
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join("");
+
+                    sourcesHtml = `
+                        <div class="mt-2 border-t border-outline-variant pt-2">
+                            <button class="flex items-center gap-1.5 text-xs text-secondary hover:text-primary transition-colors sources-toggle-btn">
+                                <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+                                <span>Source documents (${sourceDocuments.length})</span>
+                            </button>
+                            <div class="sources-detail hidden mt-1.5 pl-1">
+                                ${sourceItems}
+                            </div>
+                        </div>
+                    `;
+                }
 
                 const assistantDiv = document.createElement("div");
                 assistantDiv.className =
@@ -626,7 +685,9 @@
                     <p class="text-base text-on-surface mb-3 leading-relaxed whitespace-pre-line">
                         ${formattedText}
                     </p>
-                    <div class="flex items-center gap-2 text-secondary mb-3">
+                    ${citationHtml}
+                    ${sourcesHtml}
+                    <div class="flex items-center gap-2 text-secondary mb-3 mt-2">
                         <span class="material-symbols-outlined text-sm" data-icon="description">description</span>
                         <span class="text-xs italic">Last updated from sources: June 2026</span>
                     </div>
@@ -662,6 +723,24 @@
                         }, 2000);
                     });
                 });
+
+                // Add source documents toggle
+                const toggleBtn = assistantDiv.querySelector(".sources-toggle-btn");
+                if (toggleBtn) {
+                    toggleBtn.addEventListener("click", () => {
+                        const detail = assistantDiv.querySelector(".sources-detail");
+                        const chevron = toggleBtn.querySelector(".material-symbols-outlined");
+                        if (detail.classList.contains("hidden")) {
+                            detail.classList.remove("hidden");
+                            chevron.textContent = "chevron_right";
+                            chevron.style.transform = "rotate(90deg)";
+                        } else {
+                            detail.classList.add("hidden");
+                            chevron.textContent = "chevron_right";
+                            chevron.style.transform = "rotate(0deg)";
+                        }
+                    });
+                }
 
                 messagesContainer.appendChild(assistantDiv);
             }
@@ -723,7 +802,7 @@
 
                     if (!question && category !== "Capital Gains") {
                         // Show "Please select a scheme first" message
-                        addAssistantMessage("Please select a scheme first.");
+                        addAssistantMessage("Please select a scheme first.", null, []);
                         return;
                     }
 
@@ -782,6 +861,8 @@
                                 if (!question && category !== "Capital Gains") {
                                     addAssistantMessage(
                                         "Please select a scheme first.",
+                                        null,
+                                        [],
                                     );
                                     return;
                                 }

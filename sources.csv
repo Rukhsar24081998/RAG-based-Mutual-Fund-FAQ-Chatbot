@@ -1,35 +1,35 @@
-source,type,scheme,url
-,,,
-HDFC,Fund Facts,HDFC Flexi Cap Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Flexi%20Cap%20Fund_May%2026.pdf
-HDFC,KIM,HDFC Flexi Cap Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Flexi%20Cap%20Fund%20dated%20November%2021%2C%202025_1.pdf
-HDFC,SID,HDFC Flexi Cap Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Flexi%20Cap%20Fund%20dated%20November%2021%2C%202025_0.pdf
-,,,
-HDFC,Fund Facts,HDFC Mid Cap Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Mid-Cap%20Fund_May%2026%20%281%29.pdf
-HDFC,KIM,HDFC Mid Cap Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Mid%20Cap%20Fund%20dated%20November%2021%2C%202025_1.pdf
-HDFC,SID,HDFC Mid Cap Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Mid%20Cap%20Fund%20dated%20November%2021%2C%202025_1.pdf
-,,,
-HDFC,Fund Facts,HDFC Small Cap Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Small%20Cap%20Fund_May%2026.pdf
-HDFC,KIM,HDFC Small Cap Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Small%20Cap%20Fund%20dated%20November%2021%2C%202025_0.pdf
-HDFC,SID,HDFC Small Cap Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Small%20Cap%20Fund%20dated%20November%2021%2C%202025_0.pdf
-,,,
-HDFC,Fund Facts,HDFC Defence Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-HDFC%20Defence%20Fund_May%2026.pdf
-HDFC,KIM,HDFC Defence Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Defence%20Fund%20dated%20November%2021%2C%202025_0.pdf
-HDFC,SID,HDFC Defence Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Defence%20Fund%20dated%20November%2021%2C%202025_0.pdf
-,,,
-HDFC,FOF Book,HDFC Silver ETF Fund of Fund,https://files.hdfcfund.com/s3fs-public/2026-05/The%20FOF%20Book%20-%20May%202026_2.pdf
-HDFC,KIM,HDFC Silver ETF Fund of Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Silver%20ETF%20Fund%20of%20Fund%20dated%20November%2021%2C%202025.pdf
-HDFC,SID,HDFC Silver ETF Fund of Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Silver%20ETF%20Fund%20of%20Fund%20dated%20November%2021%2C%202025.pdf
-AMFI,Riskometer,N/A,https://www.amfiindia.com/online-center/risk-o-meter
-AMFI,Categorization of Mutual Fund Schemes,N/A,https://www.amfiindia.com/investor/knowledge-center-info?zoneName=CategorizationOfMutualFundSchemes
-AMFI,Introduction to Mutual Funds,N/A,https://www.amfiindia.com/investor/knowledge-center-info?zoneName=IntroductionMutualFunds
-SEBI,Investor Education Portal,N/A,https://investor.sebi.gov.in/
-SEBI,Investments Lets Understand,N/A,https://investor.sebi.gov.in/personalinvestments.html
-SEBI,Securities Market Investments Lets Learn,N/A,https://investor.sebi.gov.in/personalsecurities.html
-,,,
-HDFC,Scheme Page,HDFC Flexi Cap Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct
-HDFC,Scheme Page,HDFC Mid Cap Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct
-HDFC,Scheme Page,HDFC Small Cap Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct
-HDFC,Scheme Page,HDFC Defence Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-defence-fund/direct
-HDFC,Scheme Page,HDFC Silver ETF Fund of Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-silver-etf-fund-fund/direct
-,,,
-Custom,Custom Facts,All Schemes,file:///Users/rukhsarkhan/Documents/LIP3%20HDFC%20/custom_facts.txt
+source,type,scheme,url,doc_date
+,,,,
+HDFC,Fund Facts,HDFC Flexi Cap Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Flexi%20Cap%20Fund_May%2026.pdf,2026-05-01
+HDFC,KIM,HDFC Flexi Cap Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Flexi%20Cap%20Fund%20dated%20November%2021%2C%202025_1.pdf,2025-11-21
+HDFC,SID,HDFC Flexi Cap Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Flexi%20Cap%20Fund%20dated%20November%2021%2C%202025_0.pdf,2025-11-21
+,,,,
+HDFC,Fund Facts,HDFC Mid Cap Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Mid-Cap%20Fund_May%2026%20%281%29.pdf,2026-05-01
+HDFC,KIM,HDFC Mid Cap Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Mid%20Cap%20Fund%20dated%20November%2021%2C%202025_1.pdf,2025-11-21
+HDFC,SID,HDFC Mid Cap Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Mid%20Cap%20Fund%20dated%20November%2021%2C%202025_1.pdf,2025-11-21
+,,,,
+HDFC,Fund Facts,HDFC Small Cap Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-%20HDFC%20Small%20Cap%20Fund_May%2026.pdf,2026-05-01
+HDFC,KIM,HDFC Small Cap Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Small%20Cap%20Fund%20dated%20November%2021%2C%202025_0.pdf,2025-11-21
+HDFC,SID,HDFC Small Cap Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Small%20Cap%20Fund%20dated%20November%2021%2C%202025_0.pdf,2025-11-21
+,,,,
+HDFC,Fund Facts,HDFC Defence Fund,https://files.hdfcfund.com/s3fs-public/Others/2026-05/Fund%20Facts%20-HDFC%20Defence%20Fund_May%2026.pdf,2026-05-01
+HDFC,KIM,HDFC Defence Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Defence%20Fund%20dated%20November%2021%2C%202025_0.pdf,2025-11-21
+HDFC,SID,HDFC Defence Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Defence%20Fund%20dated%20November%2021%2C%202025_0.pdf,2025-11-21
+,,,,
+HDFC,FOF Book,HDFC Silver ETF Fund of Fund,https://files.hdfcfund.com/s3fs-public/2026-05/The%20FOF%20Book%20-%20May%202026_2.pdf,2026-05-01
+HDFC,KIM,HDFC Silver ETF Fund of Fund,https://files.hdfcfund.com/s3fs-public/KIM/2025-11/KIM%20-%20HDFC%20Silver%20ETF%20Fund%20of%20Fund%20dated%20November%2021%2C%202025.pdf,2025-11-21
+HDFC,SID,HDFC Silver ETF Fund of Fund,https://files.hdfcfund.com/s3fs-public/SID/2025-11/SID%20-%20HDFC%20Silver%20ETF%20Fund%20of%20Fund%20dated%20November%2021%2C%202025.pdf,2025-11-21
+AMFI,Riskometer,N/A,https://www.amfiindia.com/online-center/risk-o-meter,2026-01-01
+AMFI,Categorization of Mutual Fund Schemes,N/A,https://www.amfiindia.com/investor/knowledge-center-info?zoneName=CategorizationOfMutualFundSchemes,2026-01-01
+AMFI,Introduction to Mutual Funds,N/A,https://www.amfiindia.com/investor/knowledge-center-info?zoneName=IntroductionMutualFunds,2026-01-01
+SEBI,Investor Education Portal,N/A,https://investor.sebi.gov.in/,2026-01-01
+SEBI,Investments Lets Understand,N/A,https://investor.sebi.gov.in/personalinvestments.html,2026-01-01
+SEBI,Securities Market Investments Lets Learn,N/A,https://investor.sebi.gov.in/personalsecurities.html,2026-01-01
+,,,,
+HDFC,Scheme Page,HDFC Flexi Cap Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct,2026-06-01
+HDFC,Scheme Page,HDFC Mid Cap Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-mid-cap-fund/direct,2026-06-01
+HDFC,Scheme Page,HDFC Small Cap Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-small-cap-fund/direct,2026-06-01
+HDFC,Scheme Page,HDFC Defence Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-defence-fund/direct,2026-06-01
+HDFC,Scheme Page,HDFC Silver ETF Fund of Fund,https://www.hdfcfund.com/explore/mutual-funds/hdfc-silver-etf-fund-fund/direct,2026-06-01
+,,,,
+Custom,Custom Facts,All Schemes,file:///Users/rukhsarkhan/Documents/LIP3%20HDFC%20/custom_facts.txt,2026-06-05

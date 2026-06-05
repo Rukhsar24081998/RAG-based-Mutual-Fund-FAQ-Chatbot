@@ -43,7 +43,8 @@ def main():
     metadatas = [{
         'url': c['url'],
         'scheme': c['scheme'],
-        'type': c['type']
+        'type': c['type'],
+        'doc_date': c.get('doc_date', '')
     } for c in chunks]
     
     collection.add(

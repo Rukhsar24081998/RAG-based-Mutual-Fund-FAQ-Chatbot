@@ -28,6 +28,9 @@ def get_scheme_from_metadata(metadata):
 def get_type_from_metadata(metadata):
     return metadata.get('TYPE', '')
 
+def get_doc_date_from_metadata(metadata):
+    return metadata.get('DOC_DATE', '')
+
 def chunk_text(text, chunk_size=CHUNK_SIZE, overlap=OVERLAP):
     words = text.split()
     chunks = []
@@ -61,6 +64,7 @@ def main():
         url = get_url_from_metadata(metadata)
         scheme = get_scheme_from_metadata(metadata)
         doc_type = get_type_from_metadata(metadata)
+        doc_date = get_doc_date_from_metadata(metadata)
         
         for chunk in chunks:
             if not chunk.strip():
@@ -71,7 +75,8 @@ def main():
                 'text': chunk,
                 'url': url,
                 'scheme': scheme,
-                'type': doc_type
+                'type': doc_type,
+                'doc_date': doc_date
             })
             chunk_id += 1
     
