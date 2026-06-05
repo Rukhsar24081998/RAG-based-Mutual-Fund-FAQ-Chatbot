@@ -326,7 +326,7 @@ Typeface: **Inter** · Spacing: 8pt grid · Shadows: ambient (`rgba(15,23,42,0.0
 | High | **Auto-refresh data** | Scheduled monthly re-ingest of Fund Facts PDFs to keep AUM and fund manager data current |
 | Medium | **Fund comparison** | Side-by-side factual comparison of two schemes (expense ratio, exit load, benchmark) |
 | Medium | **Citation URL per answer** | Surface the source document URL from the top RAG chunk in every response |
-| Medium | **Docker deployment** | Containerise the API and ship to Railway, Render, or Fly.io |
+| Medium | **Docker deployment** | Containerise the API and ship to Render or Fly.io |
 | Medium | **Conversation memory** | Multi-turn context so users can ask follow-up questions without repeating the scheme name |
 | Low | **Portfolio analytics** | Read-only portfolio summary from uploaded CAS statements |
 | Low | **Voice interface** | Web Speech API for voice input; text-to-speech for answers |

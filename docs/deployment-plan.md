@@ -1,7 +1,7 @@
 # Deployment Plan
 
 ## HDFC Mutual Fund FAQ Assistant
-### Backend → Railway · Frontend → Vercel
+### Backend → Render · Frontend → Vercel
 
 > **Last updated:** June 2026
 
@@ -13,21 +13,21 @@ The application has two independently deployed components:
 
 | Component | Platform | What it runs |
 |-----------|----------|-------------|
-| **Backend API** | [Railway](https://railway.app) | FastAPI + ChromaDB + Groq LLM (Docker container) |
+| **Backend API** | [Render](https://render.com) | FastAPI + ChromaDB + Groq LLM (Docker container) |
 | **Frontend UI** | [Vercel](https://vercel.com) | Static HTML chat UI |
 
 ```mermaid
 flowchart LR
     U([User]) --> V[Vercel\nfrontend/index.html]
-    V -->|HTTPS POST /ask| R[Railway\nFastAPI API]
+    V -->|HTTPS POST /ask| R[Render\nFastAPI API]
     R --> G[Groq API\nllama-3.3-70b]
-    R --> DB[(ChromaDB\nPersistent Volume)]
+    R --> DB[(ChromaDB\nDisk / Memory)]
 ```
 
 **Deployment order:**
-1. Deploy **Railway** first → get the public URL
-2. Update `RAILWAY_URL` in `frontend/index.html` with that URL
-3. Deploy **Vercel** second → frontend calls the live API
+1. Deploy **Render** first → get the public URL
+2. Update `RENDER_URL` in `frontend/index.html` with that URL → push to GitHub
+3. Deploy **Vercel** → frontend calls the live API
 
 ---
 
@@ -36,75 +36,100 @@ flowchart LR
 | Requirement | Where to get it |
 |-------------|----------------|
 | GitHub account with repo pushed | [github.com](https://github.com) |
-| Railway account | [railway.app](https://railway.app) |
-| Vercel account | [vercel.com](https://vercel.com) |
-| Groq API key | [console.groq.com/keys](https://console.groq.com/keys) (free) |
+| Render account | [render.com](https://render.com) — sign up free with GitHub |
+| Vercel account | [vercel.com](https://vercel.com) — sign up free with GitHub |
+| Groq API key | [console.groq.com/keys](https://console.groq.com/keys) — free |
 
 ---
 
-## Part 1 — Backend: Railway
+## Render Free Tier — What to Expect
 
-### Architecture on Railway
+| Feature | Free Tier | Starter ($7/month) |
+|---------|-----------|-------------------|
+| RAM | 512 MB | 512 MB |
+| CPU | 0.1 vCPU | 0.5 vCPU |
+| Persistent Disk | ❌ Not included | ✅ $0.25/GB/month |
+| Spin-down on inactivity | ✅ After 15 min | ❌ Always on |
+| Cold start delay | 30–60 sec (first request after sleep) | None |
+| Ingest pipeline | Runs on every cold start (~5 min) | Runs once (with disk) |
 
-```
-Railway Service
-├── Docker container (python:3.11-slim)
-│   ├── FastAPI app (api/main.py)
-│   ├── RAG pipeline (rag/)
-│   └── Ingest pipeline (ingest/) ← runs once on first boot
-└── Persistent Volume mounted at /app/data
-    ├── data/raw/          ← downloaded PDFs + HTML
-    ├── data/extracted/    ← extracted text
-    ├── data/chunks/       ← chunks.jsonl
-    └── data/chroma/       ← ChromaDB vector store
-```
-
-**First-boot behaviour:** `start.sh` checks for `data/chroma/chroma.sqlite3`. If not found, it runs the full 4-step ingest pipeline (~3–5 min). On all subsequent deploys the check is skipped — the persistent volume already has the data.
+> **Recommendation:** Use the free tier to test. Upgrade to Starter if you want the ingest pipeline to run only once and no spin-down delays.
 
 ---
 
-### Step 1 — Create a New Railway Project
+## Part 1 — Backend: Render
 
-1. Go to [railway.app/new](https://railway.app/new)
-2. Click **Deploy from GitHub repo**
-3. Authorise Railway to access your GitHub account
-4. Select **RAG-based-Mutual-Fund-FAQ-Chatbot**
-5. Railway detects `Dockerfile` automatically — click **Deploy**
+### Step 1 — Sign up / Log in
+
+Go to **[render.com](https://render.com)** → click **Get Started for Free** → sign in with GitHub.
 
 ---
 
-### Step 2 — Add the Groq API Key
+### Step 2 — Create a new Web Service
 
-1. In your Railway project, click the service tile
-2. Go to **Variables** tab
-3. Click **New Variable** and add:
+1. From the Render dashboard, click **+ New** → **Web Service**
+2. Select **Build and deploy from a Git repository**
+3. Connect your GitHub account if prompted
+4. Find and select **RAG-based-Mutual-Fund-FAQ-Chatbot** → click **Connect**
+
+---
+
+### Step 3 — Configure the service
+
+On the configuration screen, set:
+
+| Field | Value |
+|-------|-------|
+| **Name** | `hdfc-mf-faq-api` |
+| **Region** | Choose closest to your users |
+| **Branch** | `main` |
+| **Runtime** | `Docker` |
+| **Dockerfile Path** | `./Dockerfile` |
+| **Instance Type** | `Free` |
+
+> Render auto-detects the `render.yaml` in your repo and may pre-fill these fields.
+
+---
+
+### Step 4 — Add the Groq API key
+
+Scroll down to **Environment Variables** and add:
 
 ```
 GROQ_API_KEY = your_groq_api_key_here
 ```
 
-> Railway injects `PORT` automatically — no need to set it manually.
+> Get a free key at: **[console.groq.com/keys](https://console.groq.com/keys)**  
+> Render injects `PORT` automatically — do not set it manually.
 
 ---
 
-### Step 3 — Attach a Persistent Volume
+### Step 5 — (Optional) Add a Persistent Disk
 
-Without a persistent volume, the `data/` directory is wiped on every redeploy and the ingest pipeline re-runs from scratch (3–5 min cold start each time). A volume solves this.
+> Skip this step on the free tier. The ingest pipeline will re-run on each cold start (~5 min) but the app will still work correctly.
 
-1. In your Railway project, click **+ New** → **Volume**
-2. Set **Mount Path** to `/app/data`
-3. Click **Create Volume**
-4. Redeploy the service (Railway prompts you)
+On paid plans (Starter+):
+1. Scroll to the **Disks** section
+2. Click **Add Disk**
+3. Set:
+   - **Name:** `app-data`
+   - **Mount Path:** `/app/data`
+   - **Size:** `1 GB`
 
-Now `data/chroma/` persists across deployments and the ingest pipeline runs exactly once.
+With the disk attached, the ingest pipeline runs **once** and ChromaDB persists across all future deploys.
 
 ---
 
-### Step 4 — Monitor First-Boot Logs
+### Step 6 — Deploy
 
-The first deployment runs the ingest pipeline. Watch the logs:
+Click **Create Web Service**.
+
+Render begins building the Docker image. Watch the **Logs** tab:
 
 ```
+==> Building Docker image...
+==> Starting service...
+
 ========================================
   HDFC Mutual Fund FAQ Assistant
 ========================================
@@ -122,129 +147,143 @@ Done! Created 500 chunks in data/chunks/chunks.jsonl
 Done! Added 500 chunks to ChromaDB
 
 Ingest pipeline complete. ChromaDB ready.
-
-Starting API server on 0.0.0.0:8080...
-INFO:     Started server process
-INFO:     Waiting for application startup.
+Starting API server on 0.0.0.0:10000...
 INFO:     Application startup complete.
-INFO:     Uvicorn running on http://0.0.0.0:8080
 ```
 
-Expected total time: **3–6 minutes** on first boot.
+⏱ **First deploy takes 5–10 minutes** (Docker build + ingest pipeline).  
+Subsequent deploys skip the ingest step if a disk is attached.
 
 ---
 
-### Step 5 — Get Your Railway URL
+### Step 7 — Get your Render URL
 
-1. Go to your Railway service → **Settings** tab → **Networking**
-2. Click **Generate Domain** (or use a custom domain)
-3. Copy the URL — it looks like:
+Once the service shows **Live** (green), your URL appears at the top of the page:
 
 ```
-https://rag-based-mutual-fund-faq-chatbot.railway.app
+https://hdfc-mf-faq-api.onrender.com
 ```
 
 ---
 
-### Step 6 — Test the API
+### Step 8 — Test the API
 
 ```bash
 # Health check
-curl https://YOUR-APP.railway.app/health
+curl https://hdfc-mf-faq-api.onrender.com/health
 # → {"status":"ok"}
 
-# Test a structured answer (no LLM needed)
-curl -X POST https://YOUR-APP.railway.app/ask \
+# Test expense ratio (structured answer — no LLM)
+curl -X POST https://hdfc-mf-faq-api.onrender.com/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "What is the expense ratio of HDFC Flexi Cap Fund?"}'
-# → {"status":"answered","answer":"The expense ratio of HDFC Flexi Cap Fund...","citation_url":"","last_updated":"June 2026"}
+# → {"status":"answered","answer":"The expense ratio of HDFC Flexi Cap Fund – Direct Plan is 0.85%.",...}
 
 # Test fund manager
-curl -X POST https://YOUR-APP.railway.app/ask \
+curl -X POST https://hdfc-mf-faq-api.onrender.com/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "Who is the fund manager of HDFC Flexi Cap Fund?"}'
-# → {"status":"answered","answer":"The fund manager of HDFC Flexi Cap Fund is Chirag Setalvad.","..."}
+# → {"status":"answered","answer":"The fund manager of HDFC Flexi Cap Fund is Chirag Setalvad.",...}
 ```
 
-Railway backend is now live. ✅
+✅ **Render backend is live.**
 
 ---
 
-## Part 2 — Frontend: Vercel
+## Part 2 — Update Frontend with Render URL
 
-### Step 7 — Update the Railway URL in the Frontend
+### Step 9 — Set your Render URL in the frontend
 
-Open `frontend/index.html` and find this line (~line 455):
+Open `frontend/index.html` in Zed and find this line (~line 455):
 
 ```javascript
-const RAILWAY_URL = "https://YOUR-APP.railway.app";
+const RENDER_URL = "https://YOUR-APP.onrender.com";
 ```
 
-Replace `YOUR-APP` with your actual Railway subdomain:
+Replace it with your actual Render URL:
 
 ```javascript
-const RAILWAY_URL = "https://rag-based-mutual-fund-faq-chatbot.railway.app";
+const RENDER_URL = "https://hdfc-mf-faq-api.onrender.com";
 ```
 
 Save the file, commit, and push:
 
 ```bash
+cd "/Users/rukhsarkhan/Documents/LIP3 HDFC "
 git add frontend/index.html
-git commit -m "config: set Railway production API URL"
+git commit -m "config: set Render production API URL"
 git push
 ```
 
 ---
 
-### Step 8 — Deploy to Vercel
+## Part 3 — Frontend: Vercel
 
-1. Go to [vercel.com/new](https://vercel.com/new)
-2. Click **Import Git Repository**
-3. Authorise Vercel to access your GitHub account
-4. Select **RAG-based-Mutual-Fund-FAQ-Chatbot**
-5. In **Configure Project**:
-   - **Framework Preset:** `Other`
-   - **Root Directory:** click **Edit** → type `frontend` → click **Continue**
-   - **Build Command:** *(leave empty)*
-   - **Output Directory:** *(leave empty)*
-6. Click **Deploy**
+### Step 10 — Sign up / Log in
 
-Vercel builds in ~10 seconds and provides a URL like:
+Go to **[vercel.com](https://vercel.com)** → sign in with GitHub.
+
+---
+
+### Step 11 — Import your repository
+
+1. Click **Add New** → **Project**
+2. Find **RAG-based-Mutual-Fund-FAQ-Chatbot** → click **Import**
+
+---
+
+### Step 12 — Configure the project
+
+| Setting | Value |
+|---------|-------|
+| **Framework Preset** | `Other` |
+| **Root Directory** | click **Edit** → type `frontend` → click **Continue** |
+| **Build Command** | *(leave empty)* |
+| **Output Directory** | *(leave empty)* |
+
+---
+
+### Step 13 — Deploy
+
+Click **Deploy**. Vercel builds in ~10 seconds.
+
+Your live URL will look like:
+
 ```
 https://hdfc-mf-faq-assistant.vercel.app
 ```
 
 ---
 
-### Step 9 — Test the Frontend
+### Step 14 — Test the full app
 
-1. Open the Vercel URL in your browser
-2. Select a scheme (e.g. **HDFC Flexi Cap Fund**)
-3. Click **Expense Ratio** → should return: `"The expense ratio of HDFC Flexi Cap Fund – Direct Plan is 0.85%."`
-4. Click **Fund Manager** → should return: `"The fund manager of HDFC Flexi Cap Fund is Chirag Setalvad."`
-5. Click **AUM** → should return: `"The assets under management (AUM) of HDFC Flexi Cap Fund are ₹52,347 crore."`
-6. Type `"Should I invest in HDFC Mid Cap Fund?"` → should return a polite refusal
+1. Open your Vercel URL
+2. Select **HDFC Flexi Cap Fund**
+3. Click **Expense Ratio** → `"The expense ratio of HDFC Flexi Cap Fund – Direct Plan is 0.85%."`
+4. Click **Fund Manager** → `"The fund manager of HDFC Flexi Cap Fund is Chirag Setalvad."`
+5. Click **AUM** → `"The assets under management (AUM) of HDFC Flexi Cap Fund are ₹52,347 crore."`
+6. Type `"Should I invest in HDFC Mid Cap Fund?"` → polite refusal ✅
 
-Full app is live. ✅
+✅ **Full app is live.**
 
 ---
 
-## Part 3 — Post-Deployment Checklist
+## Post-Deployment Checklist
 
-### Railway
+### Render
 
-- [ ] Service shows **Active** (green) in the Railway dashboard
+- [ ] Service status shows **Live** (green)
 - [ ] `GET /health` returns `{"status": "ok"}`
-- [ ] Logs show "Ingest pipeline complete" (first boot) or "ChromaDB found" (subsequent boots)
+- [ ] Logs show "Ingest pipeline complete" or "ChromaDB found"
 - [ ] `GROQ_API_KEY` environment variable is set
-- [ ] Persistent volume is attached at `/app/data`
+- [ ] (Paid only) Persistent disk attached at `/app/data`
 
 ### Vercel
 
-- [ ] Deployment status is **Ready** in Vercel dashboard
-- [ ] `RAILWAY_URL` in `frontend/index.html` points to the live Railway URL
-- [ ] Scheme selector buttons work
-- [ ] FAQ category buttons return correct answers
+- [ ] Deployment status is **Ready**
+- [ ] `RENDER_URL` in `frontend/index.html` matches your live Render URL
+- [ ] All 5 scheme buttons work
+- [ ] All FAQ category buttons return correct answers
 - [ ] Advisory questions are refused
 - [ ] PII inputs are blocked
 
@@ -252,16 +291,16 @@ Full app is live. ✅
 
 ## Environment Variables
 
-### Railway (required)
+### Render (required)
 
 | Variable | Value | Notes |
 |----------|-------|-------|
 | `GROQ_API_KEY` | `gsk_...` | From [console.groq.com/keys](https://console.groq.com/keys) |
-| `PORT` | Auto-set by Railway | Do not override |
+| `PORT` | Auto-set by Render (default: `10000`) | Do not override |
 
 ### Vercel
 
-No environment variables required. The Railway URL is hardcoded in `frontend/index.html` as `RAILWAY_URL`.
+No environment variables required. The Render URL is set directly in `frontend/index.html` as `RENDER_URL`.
 
 ---
 
@@ -269,10 +308,10 @@ No environment variables required. The Railway URL is hardcoded in `frontend/ind
 
 | File | Purpose |
 |------|---------|
-| `Dockerfile` | Builds the Railway container from `python:3.11-slim` |
-| `start.sh` | Startup script — runs ingest pipeline if needed, then starts uvicorn |
+| `Dockerfile` | Builds the Render container from `python:3.11-slim` |
+| `start.sh` | Startup script — runs ingest pipeline if needed, then starts uvicorn on `$PORT` |
 | `.dockerignore` | Excludes `data/`, `.env`, `__pycache__`, `stitch/` from Docker build |
-| `railway.toml` | Railway build + deploy config (Dockerfile builder, health check, restart policy) |
+| `render.yaml` | Render Blueprint — service type, Docker config, env vars, optional disk |
 | `frontend/vercel.json` | Vercel static site config (`cleanUrls`, `trailingSlash`) |
 
 ---
@@ -281,77 +320,83 @@ No environment variables required. The Railway URL is hardcoded in `frontend/ind
 
 ### Updating source code
 
-Push to `main` → Railway and Vercel both auto-deploy via GitHub integration.
+Push to `main` — Render and Vercel both auto-deploy via GitHub.
 
 ```bash
 git add .
-git commit -m "fix: update expense ratio for HDFC Mid Cap Fund"
+git commit -m "fix: update SCHEME_DATA for new fund facts"
 git push
 ```
 
-- **Railway:** rebuilds the Docker image, restarts the container. ChromaDB persists (volume).
+- **Render:** rebuilds the Docker image, restarts the container. Disk data persists (if attached).
 - **Vercel:** rebuilds the static site in ~10 seconds.
 
-### Rebuilding ChromaDB from scratch (e.g. new documents added)
+### Rebuilding ChromaDB from scratch
 
 ```bash
-# Option A: Delete the volume data via Railway shell
-railway shell
+# Via Render Shell (Dashboard → Service → Shell tab)
 rm -rf data/chroma data/raw data/extracted data/chunks
-exit
-# Then redeploy — start.sh will re-run the full ingest pipeline
 
-# Option B: SSH into Railway and run ingest manually
-railway shell
-python ingest/fetcher.py
-python ingest/extractor.py
-python ingest/chunker.py
-python ingest/embedder.py
+# Then redeploy — start.sh re-runs the full ingest pipeline automatically
 ```
 
 ### Rotating the Groq API key
 
-1. Railway dashboard → Service → Variables
-2. Update `GROQ_API_KEY`
-3. Railway auto-restarts the service — no redeploy needed
+Render dashboard → Service → **Environment** tab → update `GROQ_API_KEY` → **Save Changes**.  
+Render auto-restarts the service.
+
+---
+
+## Troubleshooting
+
+| Symptom | Likely cause | Fix |
+|---------|-------------|-----|
+| Build fails | Docker build error | Check Render build logs; verify `requirements.txt` |
+| "Sorry, I encountered an error" | Frontend can't reach Render API | Check `RENDER_URL` in `frontend/index.html`; check Render service is Live |
+| First request very slow (30–60 sec) | Free tier spin-down | Normal behaviour — service wakes up on first request. Upgrade to Starter to avoid. |
+| Ingest re-runs on every deploy | No persistent disk | Add disk at `/app/data` (Starter plan) |
+| `GROQ_API_KEY` error in logs | Key not set | Add it in Render → Environment tab |
+| Vercel shows 404 | Wrong root directory | Set Root Directory to `frontend` in Vercel project settings |
+| CORS error in browser | `allow_origins` mismatch | Keep `allow_origins=["*"]` in `api/main.py` or add your Vercel domain |
+| Health check failing | Ingest still running on first boot | Normal — Render retries; ingest takes ~5 min |
 
 ---
 
 ## Architecture Decisions
 
-### Why Railway for the backend?
+### Why Render for the backend?
 
-- Native Docker support — `Dockerfile` + `start.sh` deploy without any configuration changes
-- Persistent volumes keep ChromaDB data across deployments
-- Free tier supports the workload (512 MB RAM is sufficient for `all-MiniLM-L6-v2`)
-- `$PORT` is injected automatically — uvicorn binds to it directly
+- Native Docker support — `render.yaml` + `Dockerfile` deploy with zero config changes
+- Free tier available for testing; paid Starter plan adds persistent disk and no spin-down
+- `$PORT` is injected automatically — `start.sh` passes it directly to uvicorn
+- Auto-deploy from GitHub on every push to `main`
 
 ### Why Vercel for the frontend?
 
-- Zero-config static HTML deployment from a GitHub repo subfolder
-- Global CDN — fast load times worldwide
+- Zero-config static HTML deployment from a GitHub repo subdirectory
+- Global CDN — sub-100ms load times worldwide
 - Auto-deploy on every `git push`
-- Free tier is unlimited for static sites
+- Free tier has no bandwidth or build limits for static sites
 
 ### Why split deployments?
 
-Separating the backend (compute-heavy, Python) from the frontend (static HTML) means:
-- Frontend deploys in seconds; backend deploys independently
-- Frontend can be rolled back without affecting the API
-- Each tier scales independently
+| Benefit | Detail |
+|---------|--------|
+| Independent scaling | Frontend (static) and backend (compute) scale separately |
+| Independent rollback | Roll back the frontend without touching the API |
+| Faster frontend deploys | Vercel rebuilds in ~10 sec; Render rebuilds in ~5–10 min |
+| Cost separation | Frontend is always free on Vercel; backend cost is isolated to Render |
 
 ### CORS
 
-The backend sets `allow_origins=["*"]` which accepts requests from the Vercel domain. To restrict this to your Vercel URL only, update `api/main.py`:
+The backend currently allows all origins (`allow_origins=["*"]`). For production hardening, restrict it to your Vercel domain in `api/main.py`:
 
 ```python
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://hdfc-mf-faq-assistant.vercel.app",   # your Vercel URL
-        "https://your-custom-domain.com",              # optional custom domain
+        "https://hdfc-mf-faq-assistant.vercel.app",
     ],
     allow_methods=["POST", "GET"],
     allow_headers=["Content-Type"],
@@ -360,36 +405,21 @@ app.add_middleware(
 
 ---
 
-## Troubleshooting
-
-| Symptom | Likely cause | Fix |
-|---------|-------------|-----|
-| Railway build fails | Docker build error | Check build logs; ensure `requirements.txt` is valid |
-| "Sorry, I encountered an error" in chat | Frontend can't reach Railway API | Check `RAILWAY_URL` in `frontend/index.html`; check Railway is running |
-| Health check timeout (first boot) | Ingest pipeline still running | Wait 5 min; Railway's `healthcheckTimeout = 300` covers this |
-| `GROQ_API_KEY` error in logs | Key not set or invalid | Set `GROQ_API_KEY` in Railway Variables tab |
-| ChromaDB errors after redeploy | Volume not attached | Attach persistent volume at `/app/data` in Railway |
-| Vercel shows 404 | Wrong root directory | Set Root Directory to `frontend` in Vercel project settings |
-| CORS error in browser console | `allow_origins` too restrictive | Keep `allow_origins=["*"]` or add your Vercel domain |
-| Ingest re-runs on every boot | Volume not mounted | Attach Railway volume at `/app/data` |
-
----
-
 ## Resource Requirements
 
-### Railway (Backend)
+### Render (Backend)
 
-| Resource | Requirement | Notes |
-|----------|------------|-------|
-| RAM | 512 MB | `all-MiniLM-L6-v2` needs ~250 MB; leaves headroom for FastAPI + ChromaDB |
-| CPU | 0.5 vCPU | Embedding 500 chunks on first boot takes ~2–4 min; API is lightweight after |
-| Storage | 500 MB | Raw PDFs (~200 MB) + ChromaDB index (~50 MB) + extracted text (~20 MB) |
-| Network | Outbound | First-boot ingest downloads PDFs from HDFC/AMFI/SEBI servers |
+| Resource | Free Tier | Notes |
+|----------|-----------|-------|
+| RAM | 512 MB | `all-MiniLM-L6-v2` ~250 MB; FastAPI + ChromaDB ~100 MB |
+| CPU | 0.1 vCPU | Fine for API requests; ingest is slow but completes |
+| Disk | None (free) / 1 GB (paid) | Without disk: ingest re-runs on cold start |
+| Network | Outbound | First-boot ingest fetches PDFs from HDFC/AMFI/SEBI |
 
 ### Vercel (Frontend)
 
-| Resource | Requirement |
-|----------|------------|
+| Resource | Value |
+|----------|-------|
 | Bandwidth | Minimal — single static HTML file (~150 KB) |
-| Build time | ~5 seconds |
-| CDN | Global (included in free tier) |
+| Build time | ~10 seconds |
+| CDN regions | Global (100+ edge locations) |
