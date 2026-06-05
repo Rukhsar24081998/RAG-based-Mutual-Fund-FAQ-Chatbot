@@ -10,9 +10,14 @@ build/
 # Environment
 .env
 
-# Data (large files — regenerate with ingest pipeline)
-data/
+# Raw source files and intermediate pipeline output (large / regenerable)
+data/raw/
+data/extracted/
+data/chunks/
 tmp/
+
+# data/chroma/ is intentionally NOT ignored — the pre-built vector store
+# is committed to the repo so the ingest pipeline never runs on the server.
 
 # Test / IDE artefacts
 .pytest_cache/

@@ -10,25 +10,23 @@ echo "========================================"
 # exactly once and is skipped on every subsequent deployment.
 if [ ! -f "data/chroma/chroma.sqlite3" ]; then
     echo ""
+    echo "ChromaDB not found. Running ingest pipeline..."
     echo "[1/4] Downloading 21 official sources..."
     python ingest/fetcher.py
 
-    echo ""
     echo "[2/4] Extracting text from PDFs and HTML..."
     python ingest/extractor.py
 
-    echo ""
     echo "[3/4] Chunking into 500-word segments..."
     python ingest/chunker.py
 
-    echo ""
-    echo "[4/4] Embedding into ChromaDB (this takes 2-4 minutes)..."
+    echo "[4/4] Embedding into ChromaDB..."
     python ingest/embedder.py
 
-    echo ""
-    echo "Ingest pipeline complete. ChromaDB ready."
+    echo "Ingest pipeline complete."
 else
-    echo "ChromaDB found — skipping ingest pipeline."
+    echo "Pre-built ChromaDB found — skipping ingest pipeline entirely."
+    echo "No embedding runs on the server. Zero OOM risk."
 fi
 
 echo ""
