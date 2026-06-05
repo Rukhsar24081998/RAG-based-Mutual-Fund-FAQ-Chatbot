@@ -1,34 +1,48 @@
 # Deployment Plan
 
 ## HDFC Mutual Fund FAQ Assistant
-### Backend → Fly.io · Frontend → Vercel
+### Backend → Hugging Face Spaces · Frontend → Vercel
 
-> **Last updated:** June 2026
+> **Last updated:** June 2026  
+> **Cost: 100% Free — No credit card required**
 
 ---
 
 ## Overview
 
-| Component | Platform | What it runs |
-|-----------|----------|-------------|
-| **Backend API** | [Fly.io](https://fly.io) | FastAPI + ChromaDB + Groq LLM (Docker container) |
-| **Frontend UI** | [Vercel](https://vercel.com) | Static HTML chat UI |
+| Component | Platform | Cost | Card Required |
+|-----------|----------|------|--------------|
+| **Backend API** | [Hugging Face Spaces](https://huggingface.co/spaces) | Free | ❌ No |
+| **Frontend UI** | [Vercel](https://vercel.com) | Free | ❌ No |
 
 ```mermaid
 flowchart LR
     U([User]) --> V[Vercel\nfrontend/index.html]
-    V -->|HTTPS POST /ask| F[Fly.io\nFastAPI API]
-    F --> G[Groq API\nllama-3.3-70b]
-    F --> DB[(ChromaDB\nbaked into image)]
+    V -->|HTTPS POST /ask| H[HF Spaces\nFastAPI API]
+    H --> G[Groq API\nllama-3.3-70b]
+    H --> DB[(ChromaDB\nbaked into image)]
 ```
 
 **Deployment order:**
-1. Deploy **Fly.io** backend → get the public URL
-2. Update `RENDER_URL` in `frontend/index.html` with the Fly.io URL → push
+1. Deploy **Hugging Face Spaces** backend → get the public URL
+2. Update `BACKEND_URL` in `frontend/index.html` → push to GitHub
 3. Deploy **Vercel** frontend
 
-> **Note:** ChromaDB is pre-built and committed to the repo (1.6 MB).  
-> The ingest pipeline never runs on the server — zero OOM risk.
+> **ChromaDB is pre-built and in the repo (1.6 MB) — no ingest pipeline runs on the server.**
+
+---
+
+## Why Hugging Face Spaces?
+
+| Feature | HF Spaces (Free) |
+|---------|-----------------|
+| RAM | 16 GB |
+| CPU | 2 vCPU |
+| Storage | 50 GB |
+| Sleep on inactivity | ❌ Never sleeps |
+| Credit card required | ❌ No |
+| Docker support | ✅ Yes |
+| Best for | ML / AI projects |
 
 ---
 
@@ -36,166 +50,158 @@ flowchart LR
 
 | Requirement | Where to get it |
 |-------------|----------------|
-| GitHub account with repo pushed | [github.com](https://github.com) |
-| Fly.io account | [fly.io](https://fly.io) — sign up free |
-| Vercel account | [vercel.com](https://vercel.com) — sign up free with GitHub |
+| Hugging Face account | [huggingface.co/join](https://huggingface.co/join) — free, no card |
+| HF write token | [huggingface.co/settings/tokens](https://huggingface.co/settings/tokens) |
+| Vercel account | [vercel.com](https://vercel.com) — sign up with GitHub |
 | Groq API key | [console.groq.com/keys](https://console.groq.com/keys) — free |
-| flyctl CLI | See Step 1 |
 
 ---
 
-## Fly.io Free Tier
+## Part 1 — Backend: Hugging Face Spaces
 
-| Feature | Free Allowance |
-|---------|---------------|
-| VMs | 3 × shared-cpu-1x (256 MB) **or** use allowance for 1 × 512 MB |
-| Bandwidth | 160 GB outbound / month |
-| Persistent Volumes | 3 GB free |
-| Sleep on inactivity | Yes (`auto_stop_machines = true`) — first request wakes it |
-| Always-on | Set `min_machines_running = 1` in fly.toml (uses free allowance) |
+### Step 1 — Create a Hugging Face account
 
----
+Go to **[huggingface.co/join](https://huggingface.co/join)**
 
-## Part 1 — Backend: Fly.io
-
-### Step 1 — Install flyctl
-
-**macOS (Homebrew):**
-```bash
-brew install flyctl
-```
-
-**macOS (without Homebrew):**
-```bash
-curl -L https://fly.io/install.sh | sh
-```
-
-Verify:
-```bash
-flyctl version
-```
+- Enter your email, username, password
+- Verify your email
+- **No credit card required**
 
 ---
 
-### Step 2 — Sign up and log in
+### Step 2 — Create a new Space
 
-```bash
-flyctl auth signup    # new account
-# OR
-flyctl auth login     # existing account
-```
+Go to **[huggingface.co/new-space](https://huggingface.co/new-space)**
 
-This opens a browser tab. Authenticate and return to the terminal.
+Fill in the form:
+
+| Field | Value |
+|-------|-------|
+| **Owner** | your HF username |
+| **Space name** | `hdfc-mf-faq-api` |
+| **SDK** | `Docker` |
+| **Visibility** | `Public` |
+
+Click **Create Space**.
 
 ---
 
-### Step 3 — Launch the app on Fly.io
+### Step 3 — Add your Groq API key as a secret
 
-Run this from the project root:
+1. Inside your Space, click **Settings** tab
+2. Scroll to **Repository secrets**
+3. Click **New secret**
+4. Add:
+   - **Name:** `GROQ_API_KEY`
+   - **Value:** your Groq API key from [console.groq.com/keys](https://console.groq.com/keys)
+5. Click **Save**
+
+---
+
+### Step 4 — Get a Hugging Face write token
+
+Go to **[huggingface.co/settings/tokens](https://huggingface.co/settings/tokens)**
+
+1. Click **New token**
+2. Name: `deploy-token`
+3. Role: **Write**
+4. Click **Generate a token**
+5. **Copy the token** — you'll use it in the next step
+
+---
+
+### Step 5 — Push your code to HF Spaces
+
+Open the Zed terminal and run:
 
 ```bash
 cd "/Users/rukhsarkhan/Documents/LIP3 HDFC "
-flyctl launch
+git remote add hf https://huggingface.co/spaces/YOUR-HF-USERNAME/hdfc-mf-faq-api
+git push hf main
 ```
 
-Fly.io will detect the `Dockerfile` and `fly.toml`. Answer the prompts:
+When prompted for credentials:
+```
+Username: YOUR-HF-USERNAME
+Password: paste your HF write token here (not your account password)
+```
+
+HF Spaces starts building automatically.
+
+---
+
+### Step 6 — Watch the build
+
+Go to your Space URL:
+```
+https://huggingface.co/spaces/YOUR-HF-USERNAME/hdfc-mf-faq-api
+```
+
+Click the **Logs** tab. You'll see:
 
 ```
-? Would you like to copy its configuration to the new app?  → Yes
-? Choose an app name (leave blank for auto-generated):      → hdfc-mf-faq-api
-? Choose a region:                                          → pick closest to you
-? Would you like to set up a Postgresql database?           → No
-? Would you like to set up an Upstash Redis database?       → No
-? Would you like to deploy now?                             → No  (we set the secret first)
+========================================
+  HDFC Mutual Fund FAQ Assistant
+========================================
+
+Pre-built ChromaDB found — skipping ingest pipeline entirely.
+No embedding runs on the server. Zero OOM risk.
+Starting API server on 0.0.0.0:8000...
+INFO:     Application startup complete.
+```
+
+**Expected build time: 5–10 minutes** (Docker image build + dependency install).  
+**Boot time after build: ~15 seconds.**
+
+When the Space shows **Running** (green) → it's live.
+
+---
+
+### Step 7 — Get your HF Spaces URL
+
+Your API URL will be:
+```
+https://YOUR-HF-USERNAME-hdfc-mf-faq-api.hf.space
+```
+
+For example:
+```
+https://rukhsar24081998-hdfc-mf-faq-api.hf.space
 ```
 
 ---
 
-### Step 4 — Set the Groq API key
-
-```bash
-flyctl secrets set GROQ_API_KEY=your_groq_api_key_here
-```
-
-Verify it was saved:
-```bash
-flyctl secrets list
-```
-
----
-
-### Step 5 — Deploy
-
-```bash
-flyctl deploy
-```
-
-Fly.io builds the Docker image and deploys. Watch the output:
-
-```
-==> Building image
-==> Pushing image to registry
-==> Creating release
-==> Monitoring deployment
-
-  ✓  Machine e286553b91d508 [app] update finished: success
-  ✓  Deployment complete!
-```
-
-**Expected build time:** 3–5 minutes (Docker image build).  
-**Expected boot time:** ~15 seconds (ChromaDB is pre-built — no ingest runs).
-
----
-
-### Step 6 — Get your Fly.io URL
-
-```bash
-flyctl info
-```
-
-Your URL will look like:
-```
-https://hdfc-mf-faq-api.fly.dev
-```
-
-Or open it directly in the browser:
-```bash
-flyctl open
-```
-
----
-
-### Step 7 — Test the API
+### Step 8 — Test the API
 
 ```bash
 # Health check
-curl https://hdfc-mf-faq-api.fly.dev/health
+curl https://YOUR-HF-USERNAME-hdfc-mf-faq-api.hf.space/health
 # → {"status":"ok"}
 
 # Expense ratio
-curl -X POST https://hdfc-mf-faq-api.fly.dev/ask \
+curl -X POST https://YOUR-HF-USERNAME-hdfc-mf-faq-api.hf.space/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "What is the expense ratio of HDFC Flexi Cap Fund?"}'
 # → {"status":"answered","answer":"The expense ratio of HDFC Flexi Cap Fund – Direct Plan is 0.85%.",...}
 
 # Fund manager
-curl -X POST https://hdfc-mf-faq-api.fly.dev/ask \
+curl -X POST https://YOUR-HF-USERNAME-hdfc-mf-faq-api.hf.space/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "Who is the fund manager of HDFC Flexi Cap Fund?"}'
 # → {"status":"answered","answer":"The fund manager of HDFC Flexi Cap Fund is Chirag Setalvad.",...}
 
 # AUM
-curl -X POST https://hdfc-mf-faq-api.fly.dev/ask \
+curl -X POST https://YOUR-HF-USERNAME-hdfc-mf-faq-api.hf.space/ask \
   -H "Content-Type: application/json" \
   -d '{"question": "What is the AUM of HDFC Mid Cap Fund?"}'
 # → {"status":"answered","answer":"The assets under management (AUM) of HDFC Mid Cap Fund are ₹41,892 crore.",...}
 ```
 
-✅ **Fly.io backend is live.**
+✅ **HF Spaces backend is live.**
 
 ---
 
-## Part 2 — Update Frontend with Fly.io URL
+## Part 2 — Update Frontend with HF Spaces URL
 
 Open `frontend/index.html` and find (~line 457):
 
@@ -203,38 +209,45 @@ Open `frontend/index.html` and find (~line 457):
 const BACKEND_URL = "https://YOUR-APP.fly.dev";
 ```
 
-Replace `YOUR-APP` with your actual Fly.io app name:
+Replace with your HF Spaces URL:
 
 ```javascript
-const BACKEND_URL = "https://hdfc-mf-faq-api.fly.dev";
+const BACKEND_URL = "https://rukhsar24081998-hdfc-mf-faq-api.hf.space";
 ```
 
 Commit and push:
 
 ```bash
+cd "/Users/rukhsarkhan/Documents/LIP3 HDFC "
 git add frontend/index.html
-git commit -m "config: set Fly.io production API URL"
+git commit -m "config: set HF Spaces production API URL"
 git push
+```
+
+Then push the update to HF Spaces too:
+
+```bash
+git push hf main
 ```
 
 ---
 
 ## Part 3 — Frontend: Vercel
 
-### Step 8 — Sign in to Vercel
+### Step 9 — Sign in to Vercel
 
 Go to **[vercel.com](https://vercel.com)** → sign in with GitHub.
 
 ---
 
-### Step 9 — Import repository
+### Step 10 — Import repository
 
 1. Click **Add New** → **Project**
 2. Select **RAG-based-Mutual-Fund-FAQ-Chatbot** → **Import**
 
 ---
 
-### Step 10 — Configure
+### Step 11 — Configure
 
 | Setting | Value |
 |---------|-------|
@@ -249,91 +262,36 @@ Click **Deploy** — ready in ~10 seconds.
 https://hdfc-mf-faq-assistant.vercel.app
 ```
 
-✅ **Full app is live.**
+✅ **Full app is live — 100% free.**
 
 ---
 
 ## Post-Deployment Checklist
 
-### Fly.io
-- [ ] `flyctl status` shows `running`
-- [ ] `curl /health` returns `{"status":"ok"}`
+### Hugging Face Spaces
+- [ ] Space status shows **Running** (green)
+- [ ] `GET /health` returns `{"status": "ok"}`
 - [ ] Logs show `Pre-built ChromaDB found — skipping ingest pipeline entirely`
-- [ ] `GROQ_API_KEY` secret is set (`flyctl secrets list`)
+- [ ] `GROQ_API_KEY` secret is set in Space settings
 
 ### Vercel
 - [ ] Deployment status is **Ready**
-- [ ] `BACKEND_URL` in `frontend/index.html` is the Fly.io URL
-- [ ] All scheme buttons work
-- [ ] All FAQ category buttons return correct answers
+- [ ] `BACKEND_URL` in `frontend/index.html` is the HF Spaces URL
+- [ ] All scheme buttons return correct answers
+- [ ] Fund Manager and AUM buttons work
+- [ ] Advisory questions are refused
 
 ---
 
-## Useful flyctl Commands
+## Redeployment — Updating Code
+
+Any time you push changes to GitHub, you also push to HF Spaces:
 
 ```bash
-# View live logs
-flyctl logs
-
-# Check app status and URL
-flyctl status
-flyctl info
-
-# Open app in browser
-flyctl open
-
-# SSH into the container
-flyctl ssh console
-
-# Scale memory up (if needed)
-flyctl scale memory 1024
-
-# Redeploy after code changes
-flyctl deploy
-
-# Rotate Groq API key
-flyctl secrets set GROQ_API_KEY=new_key_here
-
-# Destroy app (if needed)
-flyctl apps destroy hdfc-mf-faq-api
-```
-
----
-
-## Redeployment
-
-Push to `main` and redeploy:
-
-```bash
-git push
-flyctl deploy
-```
-
-Vercel auto-deploys on every push. Fly.io does not auto-deploy from GitHub by default unless you connect GitHub Actions.
-
-### Auto-deploy from GitHub (optional)
-
-Add `.github/workflows/fly-deploy.yml`:
-
-```yaml
-name: Deploy to Fly.io
-on:
-  push:
-    branches: [main]
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-```
-
-Set `FLY_API_TOKEN` in GitHub repo → Settings → Secrets:
-```bash
-flyctl auth token   # copy this value into GitHub secret
+git add .
+git commit -m "your change"
+git push             # updates GitHub + Vercel auto-deploys
+git push hf main     # updates HF Spaces → rebuilds Docker image
 ```
 
 ---
@@ -342,23 +300,24 @@ flyctl auth token   # copy this value into GitHub secret
 
 | Symptom | Cause | Fix |
 |---------|-------|-----|
-| `flyctl launch` fails | Not logged in | `flyctl auth login` |
-| Build fails | Docker error | `flyctl logs` → check error |
-| First request slow (5–30 sec) | Machine was sleeping | Normal — wakes on demand. Set `min_machines_running = 1` to avoid |
-| OOM error | Memory exceeded 512 MB | `flyctl scale memory 1024` |
-| `GROQ_API_KEY` missing | Secret not set | `flyctl secrets set GROQ_API_KEY=...` |
-| Frontend shows "Sorry, error" | Wrong Fly.io URL in frontend | Check `BACKEND_URL` in `frontend/index.html` |
-| CORS error | Origin not allowed | Keep `allow_origins=["*"]` in `api/main.py` |
+| Push to HF fails with 403 | Wrong token or username | Use write token as password, not account password |
+| Space stuck on "Building" | Large Docker image | Wait — dependencies (~2 GB) take time to install |
+| Space shows error after build | Check Logs tab | Look for Python import errors |
+| "Sorry, I encountered an error" | Wrong BACKEND_URL | Check `BACKEND_URL` in `frontend/index.html` matches HF Space URL |
+| CORS error in browser | Origin blocked | Keep `allow_origins=["*"]` in `api/main.py` |
+| GROQ_API_KEY not found | Secret not set | Space → Settings → Repository secrets → add GROQ_API_KEY |
+| OOM error | Should not happen | HF free tier has 16 GB RAM — far more than needed |
 
 ---
 
-## Deployment Files
+## Deployment Files Reference
 
 | File | Purpose |
 |------|---------|
-| `Dockerfile` | Builds the Fly.io container from `python:3.11-slim` |
-| `start.sh` | Startup script — detects pre-built ChromaDB, starts uvicorn on `$PORT` |
+| `README.md` | HF Spaces frontmatter (`sdk: docker`, `app_port: 8000`) at top |
+| `Dockerfile` | Builds the container from `python:3.11-slim` |
+| `start.sh` | Detects pre-built ChromaDB, starts uvicorn on port 8000 |
 | `.dockerignore` | Excludes `.env`, `__pycache__`, `stitch/` from Docker build |
-| `fly.toml` | Fly.io app config — Docker build, HTTP service, VM size |
-| `data/chroma/` | Pre-built vector store (1.6 MB) — committed to repo, no OOM on server |
+| `data/chroma/` | Pre-built vector store (1.6 MB) — no OOM on server |
+| `fly.toml` | Kept for future Fly.io use (not active) |
 | `frontend/vercel.json` | Vercel static site config |

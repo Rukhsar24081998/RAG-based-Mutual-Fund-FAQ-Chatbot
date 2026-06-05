@@ -1,3 +1,14 @@
+---
+title: HDFC Mutual Fund FAQ Assistant
+emoji: 📊
+colorFrom: red
+colorTo: blue
+sdk: docker
+app_port: 8000
+pinned: false
+license: mit
+---
+
 # HDFC Mutual Fund FAQ Assistant
 
 A production-grade, facts-only conversational FAQ assistant for HDFC Mutual Fund schemes — built on a Retrieval-Augmented Generation (RAG) pipeline. Answers investor questions from verified official sources (HDFC PDFs, AMFI, SEBI), refuses investment advice, and blocks personal information. Zero hallucination on structured scheme data.
