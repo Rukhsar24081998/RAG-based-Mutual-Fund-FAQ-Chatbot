@@ -1,0 +1,53 @@
+HDFC Mutual Fund Facts
+
+HDFC Flexi Cap Fund:
+- Expense Ratio (Direct Plan): 0.85%
+- Minimum SIP Amount: ₹100
+- Exit Load: 1% if redeemed within 1 year, 0% after 1 year
+- Benchmark Index: NIFTY 500 Index (Total Returns Index)
+- Riskometer Classification: Moderately High
+- Fund Manager: Chirag Setalvad
+- AUM (Assets Under Management): ₹52,347 crore
+
+HDFC Mid Cap Fund:
+- Expense Ratio (Direct Plan): 0.95%
+- Minimum SIP Amount: ₹100
+- Exit Load: 1% if redeemed within 1 year, 0% after 1 year
+- Benchmark Index: NIFTY Midcap 150 Index (Total Returns Index)
+- Riskometer Classification: Very High
+- Fund Manager: Srinivas Rao Ravuri
+- AUM (Assets Under Management): ₹41,892 crore
+
+HDFC Small Cap Fund:
+- Expense Ratio (Direct Plan): 1.05%
+- Minimum SIP Amount: ₹100
+- Exit Load: 1% if redeemed within 1 year, 0% after 1 year
+- Benchmark Index: NIFTY Smallcap 250 Index (Total Returns Index)
+- Riskometer Classification: Very High
+- Fund Manager: Srinivas Rao Ravuri
+- AUM (Assets Under Management): ₹32,145 crore
+
+HDFC Defence Fund:
+- Expense Ratio (Direct Plan): 1.15%
+- Minimum SIP Amount: ₹500
+- Exit Load: 1% if redeemed within 1 year, 0% after 1 year
+- Benchmark Index: NIFTY India Defence Index (Total Returns Index)
+- Riskometer Classification: Very High
+- Fund Manager: Amit Sethiya
+- AUM (Assets Under Management): ₹15,678 crore
+
+HDFC Silver ETF Fund of Fund:
+- Expense Ratio (Direct Plan): 0.25%
+- Minimum SIP Amount: ₹100
+- Exit Load: 0.25% if redeemed within 30 days, 0% after 30 days
+- Benchmark Index: Domestic Price of Silver (based on MCX)
+- Riskometer Classification: Moderately High
+- Fund Manager: Anil Bamboli
+- AUM (Assets Under Management): ₹8,542 crore
+
+How to Download Statements:
+- To download your capital gains statement or account statement:
+  1. Log in to your HDFC Mutual Fund account at https://www.hdfcfund.com/
+  2. Go to "My Portfolio" or "Statements" section
+  3. Select the desired statement type and date range
+  4. Download the statement in PDF format

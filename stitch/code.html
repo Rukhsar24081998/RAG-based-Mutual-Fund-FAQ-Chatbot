@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>HDFC Mutual Fund FAQ Assistant</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e0e3e5",
+                        "inverse-surface": "#2d3133",
+                        "primary-container": "#e31e24",
+                        "on-tertiary-fixed-variant": "#3a485c",
+                        "secondary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#e6e8ea",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#ffb4ab",
+                        "surface-container": "#eceef0",
+                        "surface": "#f7f9fb",
+                        "on-primary-container": "#fffafa",
+                        "on-tertiary-container": "#fcfbff",
+                        "on-surface": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed-dim": "#b9c7e0",
+                        "on-secondary-fixed": "#131b2e",
+                        "on-secondary-container": "#5c647a",
+                        "on-tertiary-fixed": "#0d1c2f",
+                        "on-primary-fixed": "#410002",
+                        "primary-fixed": "#ffdad6",
+                        "inverse-primary": "#ffb4ab",
+                        "tertiary-container": "#67758b",
+                        "on-primary": "#ffffff",
+                        "secondary": "#565e74",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-surface-variant": "#5d3f3c",
+                        "surface-container-low": "#f2f4f6",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary": "#4e5c72",
+                        "outline": "#926f6b",
+                        "secondary-fixed": "#dae2fd",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "primary": "#ba0013",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#93000d",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#3f465c",
+                        "surface-tint": "#c00014",
+                        "tertiary-fixed": "#d5e3fd",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "background": "#f7f9fb",
+                        "secondary-container": "#dae2fd",
+                        "outline-variant": "#e7bdb8",
+                        "surface-container-lowest": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "5rem",
+                        "3xl": "4rem",
+                        "xl": "2rem",
+                        "base": "4px",
+                        "lg": "1.5rem",
+                        "sm": "0.5rem",
+                        "gutter": "1.5rem",
+                        "md": "1rem",
+                        "2xl": "3xl",
+                        "xs": "0.25rem",
+                        "margin-mobile": "1rem"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-xl": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "headline-xl": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+        .chat-bubble-shadow { box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05); }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden">
+<!-- SideNavBar Component -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-surface-container-low border-r border-outline-variant py-lg">
+<div class="px-md mb-xl">
+<h1 class="font-headline-sm text-headline-sm font-bold text-primary">HDFC MF Assistant</h1>
+<p class="font-label-md text-label-md text-secondary">AI-Powered Insights</p>
+</div>
+<nav class="flex-1 px-sm space-y-base overflow-y-auto">
+<button class="w-full flex items-center gap-md bg-primary-container text-on-primary-container rounded-lg px-md py-sm transition-transform active:scale-[0.98]">
+<span class="material-symbols-outlined" data-icon="add_comment">add_comment</span>
+<span class="font-label-md text-label-md">New Chat</span>
+</button>
+<button class="w-full flex items-center gap-md text-secondary px-md py-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span class="font-label-md text-label-md">Recent Questions</span>
+</button>
+<button class="w-full flex items-center gap-md text-secondary px-md py-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span class="font-label-md text-label-md">Saved Questions</span>
+</button>
+<button class="w-full flex items-center gap-md text-secondary px-md py-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+<span class="font-label-md text-label-md">Help</span>
+</button>
+</nav>
+<div class="px-md mt-auto pt-lg border-t border-outline-variant">
+<div class="bg-surface-container-highest rounded-xl p-md mb-lg">
+<p class="font-label-sm text-label-sm text-secondary mb-xs">Subscription</p>
+<p class="font-label-md text-label-md font-bold text-on-surface mb-sm">Upgrade to Premium</p>
+<button class="w-full py-xs bg-primary text-on-primary rounded-lg font-label-md text-label-md">Learn More</button>
+</div>
+<div class="space-y-base">
+<button class="w-full flex items-center gap-md text-secondary px-md py-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="info">info</span>
+<span class="font-label-md text-label-md">About</span>
+</button>
+<button class="w-full flex items-center gap-md text-secondary px-md py-sm hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Chat Content -->
+<main class="flex-1 flex flex-col min-w-0 relative">
+<!-- Top Header Area -->
+<header class="flex justify-between items-center w-full px-lg py-md bg-surface-container-lowest shadow-sm z-50">
+<div class="flex items-center gap-md">
+<span class="md:hidden material-symbols-outlined text-primary cursor-pointer" data-icon="menu">menu</span>
+<h2 class="font-headline-md text-headline-md font-bold text-primary">HDFC Mutual Fund FAQ Assistant</h2>
+</div>
+<div class="flex items-center gap-lg">
+<div class="hidden md:flex gap-xl">
+<a class="text-secondary font-body-md text-body-md hover:text-primary transition-colors" href="#">Explore Funds</a>
+<a class="text-secondary font-body-md text-body-md hover:text-primary transition-colors" href="#">Knowledge Center</a>
+<a class="text-secondary font-body-md text-body-md hover:text-primary transition-colors" href="#">Calculators</a>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Sign In</button>
+</div>
+</header>
+<!-- Chat Conversation Area -->
+<div class="flex-1 overflow-y-auto custom-scrollbar px-md md:px-margin-desktop py-xl">
+<div class="max-w-[800px] mx-auto space-y-3xl">
+<!-- User Message -->
+<div class="flex justify-end">
+<div class="bg-secondary-container text-on-secondary-container rounded-2xl rounded-tr-none px-lg py-md max-w-[80%] chat-bubble-shadow">
+<p class="font-body-md text-body-md">What is the minimum SIP for HDFC Defence Fund?</p>
+</div>
+</div>
+<!-- Assistant Response -->
+<div class="space-y-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+<div class="flex items-start gap-md">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-primary text-[18px]" data-icon="smart_toy">smart_toy</span>
+</div>
+<div class="bg-white border border-outline-variant rounded-2xl rounded-tl-none p-lg chat-bubble-shadow flex-1">
+<p class="font-body-md text-body-md text-on-surface mb-md leading-relaxed">
+                                The minimum SIP amount for <span class="font-bold text-primary">HDFC Defence Fund</span> is ₹500 per installment.
+                            </p>
+<div class="flex items-center gap-sm text-secondary mb-lg">
+<span class="material-symbols-outlined text-[16px]" data-icon="description">description</span>
+<span class="font-label-sm text-label-sm italic">Source: HDFC Defence Fund Scheme Documents</span>
+</div>
+<!-- Action Bar -->
+<div class="flex gap-md border-t border-outline-variant pt-md">
+<button class="flex items-center gap-xs text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="content_copy">content_copy</span>
+<span class="font-label-sm text-label-sm">Copy</span>
+</button>
+<button class="flex items-center gap-xs text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_up">thumb_up</span>
+</button>
+<button class="flex items-center gap-xs text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="thumb_down">thumb_down</span>
+</button>
+<button class="flex items-center gap-xs text-secondary hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]" data-icon="share">share</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Fund Snapshot Widget -->
+<div class="ml-10 bg-white border border-outline-variant rounded-xl p-lg shadow-sm">
+<div class="flex justify-between items-start mb-lg">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface">HDFC Defence Fund</h3>
+<div class="flex gap-sm mt-xs">
+<span class="bg-primary/5 text-primary px-sm py-[2px] rounded-full text-[10px] font-bold uppercase tracking-wider">Sectoral/Thematic</span>
+<span class="bg-error-container text-on-error-container px-sm py-[2px] rounded-full text-[10px] font-bold uppercase tracking-wider">Risk: Very High</span>
+</div>
+</div>
+<div class="text-right">
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest">AUM</p>
+<p class="font-headline-sm text-headline-sm text-on-surface">₹3,200 Cr</p>
+</div>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-lg mb-xl">
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-base">Expense Ratio</p>
+<p class="font-body-md text-body-md font-semibold">0.76%</p>
+</div>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-base">Min SIP</p>
+<p class="font-body-md text-body-md font-semibold">₹500</p>
+</div>
+<div class="col-span-1 md:col-span-2">
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest mb-base">Benchmark</p>
+<p class="font-body-md text-body-md font-semibold truncate">Nifty India Defence Index TRI</p>
+</div>
+</div>
+<div class="flex items-center gap-md p-md bg-surface-container-low rounded-lg mb-lg">
+<img class="w-10 h-10 rounded-full bg-surface-variant object-cover" data-alt="A professional portrait of a senior financial fund manager in a modern corporate office setting. He is wearing a crisp blue shirt and has a confident, approachable expression. The background is softly blurred with clean, minimal glass partitions and natural architectural lighting, reflecting a corporate professional and reliable aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVRC5JYs_a15_ZTVp6-4LUQ7uMVF2R2omeRkVtQd-Nm_w_bWBiCrZDsdOpllldiG0hbiSbWeW-NPFC-hYuVoP_1elm8l5ufcghVNg45QMTBwmjUbLXwbdsCg16WyDlCxk2WAJALpsEDBBGyXQjNfFH4ZqQolUa9hdyshmp4MUom9pSmRlSQ5Vci3PJkVr6Na2wF15sU5A5DqcjJ4iWSTghDRcKJX6nSvlItqOvNWul--g6mdJRtjINldKSk_ciQzcllcggw6y1TlA"/>
+<div>
+<p class="text-[10px] font-bold text-secondary uppercase tracking-widest">Fund Manager</p>
+<p class="font-body-md text-body-md font-semibold">Abhishek Poddar</p>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="flex flex-wrap gap-sm">
+<button class="px-md py-sm border border-outline rounded-lg font-label-sm text-label-sm hover:bg-surface-container-high transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="open_in_new">open_in_new</span>
+                                View Scheme Page
+                            </button>
+<button class="px-md py-sm border border-outline rounded-lg font-label-sm text-label-sm hover:bg-surface-container-high transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="download">download</span>
+                                Download SID
+                            </button>
+<button class="px-md py-sm border border-outline rounded-lg font-label-sm text-label-sm hover:bg-surface-container-high transition-colors flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px]" data-icon="file_present">file_present</span>
+                                Download Factsheet
+                            </button>
+</div>
+</div>
+</div>
+<!-- Suggested Questions -->
+<div class="ml-10 space-y-md">
+<p class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Suggested Questions</p>
+<div class="flex flex-wrap gap-sm">
+<button class="px-md py-sm bg-white border border-outline-variant rounded-full font-body-sm text-body-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm">
+                            What is the expense ratio?
+                        </button>
+<button class="px-md py-sm bg-white border border-outline-variant rounded-full font-body-sm text-body-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm">
+                            Who manages this fund?
+                        </button>
+<button class="px-md py-sm bg-white border border-outline-variant rounded-full font-body-sm text-body-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm">
+                            What is the risk level?
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Area -->
+<div class="w-full px-md md:px-margin-desktop py-lg bg-background/80 backdrop-blur-md">
+<div class="max-w-[800px] mx-auto relative group">
+<input class="w-full h-14 pl-lg pr-16 bg-white border border-outline-variant rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-body-md placeholder:text-secondary" placeholder="Ask about HDFC Mutual Funds..." type="text"/>
+<button class="absolute right-3 top-2 w-10 h-10 bg-primary text-on-primary rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+<p class="text-center mt-md font-label-sm text-label-sm text-secondary">
+                AI can make mistakes. Please verify important details with official scheme documents.
+            </p>
+</div>
+</main>
+<!-- Footer Overlay (Semantic Only/Small) -->
+<footer class="absolute bottom-4 left-4 hidden xl:block">
+<p class="text-[10px] text-secondary/50 font-label-sm">© 2024 HDFC Mutual Fund. SEBI Registration No: MF/007/94/3</p>
+</footer>
+<script>
+        // Simple micro-interaction for buttons
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+            btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+        });
+    </script>
+</body></html>

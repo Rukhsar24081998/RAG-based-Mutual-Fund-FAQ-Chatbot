@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+
+# Data (large files — regenerate with ingest pipeline)
+data/
+tmp/
+
+# Test / IDE artefacts
+.pytest_cache/
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/

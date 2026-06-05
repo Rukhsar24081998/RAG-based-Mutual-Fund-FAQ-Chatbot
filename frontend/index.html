@@ -1,0 +1,766 @@
+<!doctype html>
+<html class="light" lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>HDFC Mutual Fund FAQ Assistant</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+            rel="stylesheet"
+        />
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        colors: {
+                            "surface-variant": "#e0e3e5",
+                            "inverse-surface": "#2d3133",
+                            "primary-container": "#e31e24",
+                            "on-tertiary-fixed-variant": "#3a485c",
+                            "secondary-fixed-dim": "#bec6e0",
+                            "surface-container-high": "#e6e8ea",
+                            error: "#ba1a1a",
+                            "primary-fixed-dim": "#ffb4ab",
+                            "surface-container": "#eceef0",
+                            surface: "#f7f9fb",
+                            "on-primary-container": "#fffafa",
+                            "on-tertiary-container": "#fcfbff",
+                            "on-surface": "#191c1e",
+                            "error-container": "#ffdad6",
+                            "tertiary-fixed-dim": "#b9c7e0",
+                            "on-secondary-fixed": "#131b2e",
+                            "on-secondary-container": "#5c647a",
+                            "on-tertiary-fixed": "#0d1c2f",
+                            "on-primary-fixed": "#410002",
+                            "primary-fixed": "#ffdad6",
+                            "inverse-primary": "#ffb4ab",
+                            "tertiary-container": "#67758b",
+                            "on-primary": "#ffffff",
+                            secondary: "#565e74",
+                            "surface-container-highest": "#e0e3e5",
+                            "on-surface-variant": "#5d3f3c",
+                            "surface-container-low": "#f2f4f6",
+                            "inverse-on-surface": "#eff1f3",
+                            tertiary: "#4e5c72",
+                            outline: "#926f6b",
+                            "secondary-fixed": "#dae2fd",
+                            "on-error": "#ffffff",
+                            "on-tertiary": "#ffffff",
+                            "on-background": "#191c1e",
+                            primary: "#ba0013",
+                            "surface-dim": "#d8dadc",
+                            "on-primary-fixed-variant": "#93000d",
+                            "on-error-container": "#93000a",
+                            "on-secondary-fixed-variant": "#3f465c",
+                            "surface-tint": "#c00014",
+                            "tertiary-fixed": "#d5e3fd",
+                            "surface-bright": "#f7f9fb",
+                            "on-secondary": "#ffffff",
+                            background: "#f7f9fb",
+                            "secondary-container": "#dae2fd",
+                            "outline-variant": "#e7bdb8",
+                            "surface-container-lowest": "#ffffff",
+                        },
+                        borderRadius: {
+                            DEFAULT: "0.25rem",
+                            lg: "0.5rem",
+                            xl: "0.75rem",
+                            full: "9999px",
+                        },
+                        spacing: {
+                            "margin-desktop": "5rem",
+                            "3xl": "4rem",
+                            xl: "2rem",
+                            base: "4px",
+                            lg: "1.5rem",
+                            sm: "0.5rem",
+                            gutter: "1.5rem",
+                            md: "1rem",
+                            "2xl": "3xl",
+                            xs: "0.25rem",
+                            "margin-mobile": "1rem",
+                        },
+                        fontFamily: {
+                            "body-lg": ["Inter"],
+                            "label-md": ["Inter"],
+                            "headline-lg": ["Inter"],
+                            "headline-xl": ["Inter"],
+                            "body-md": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "body-sm": ["Inter"],
+                            "label-sm": ["Inter"],
+                        },
+                        fontSize: {
+                            "body-lg": [
+                                "18px",
+                                { lineHeight: "28px", fontWeight: "400" },
+                            ],
+                            "label-md": [
+                                "14px",
+                                {
+                                    lineHeight: "20px",
+                                    letterSpacing: "0.05em",
+                                    fontWeight: "600",
+                                },
+                            ],
+                            "headline-lg": [
+                                "32px",
+                                {
+                                    lineHeight: "40px",
+                                    letterSpacing: "-0.02em",
+                                    fontWeight: "700",
+                                },
+                            ],
+                            "headline-xl": [
+                                "48px",
+                                {
+                                    lineHeight: "56px",
+                                    letterSpacing: "-0.02em",
+                                    fontWeight: "700",
+                                },
+                            ],
+                            "body-md": [
+                                "16px",
+                                { lineHeight: "24px", fontWeight: "400" },
+                            ],
+                            "headline-md": [
+                                "24px",
+                                { lineHeight: "32px", fontWeight: "600" },
+                            ],
+                            "body-sm": [
+                                "14px",
+                                { lineHeight: "20px", fontWeight: "400" },
+                            ],
+                            "label-sm": [
+                                "12px",
+                                { lineHeight: "16px", fontWeight: "500" },
+                            ],
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            body {
+                font-family: "Inter", sans-serif;
+            }
+            .material-symbols-outlined {
+                font-variation-settings:
+                    "FILL" 0,
+                    "wght" 400,
+                    "GRAD" 0,
+                    "opsz" 24;
+                vertical-align: middle;
+            }
+            .custom-scrollbar::-webkit-scrollbar {
+                width: 6px;
+            }
+            .custom-scrollbar::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            .custom-scrollbar::-webkit-scrollbar-thumb {
+                background: #e0e3e5;
+                border-radius: 10px;
+            }
+            .chat-bubble-shadow {
+                box-shadow: 0px 4px 20px rgba(15, 23, 42, 0.05);
+            }
+            .loading-dots {
+                display: inline-flex;
+                gap: 4px;
+            }
+            .loading-dots span {
+                width: 8px;
+                height: 8px;
+                background: #ba0013;
+                border-radius: 50%;
+                animation: bounce 1.4s infinite ease-in-out both;
+            }
+            .loading-dots span:nth-child(1) {
+                animation-delay: -0.32s;
+            }
+            .loading-dots span:nth-child(2) {
+                animation-delay: -0.16s;
+            }
+            @keyframes bounce {
+                0%,
+                80%,
+                100% {
+                    transform: scale(0);
+                }
+                40% {
+                    transform: scale(1);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-on-surface h-screen flex flex-col overflow-hidden"
+    >
+        <!-- Header Section -->
+        <header
+            class="w-full bg-white border-b border-outline-variant py-4 px-4 flex-shrink-0"
+        >
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-2xl font-bold text-primary mb-1">
+                    HDFC Mutual Fund FAQ Assistant
+                </h1>
+                <p class="text-sm text-secondary mb-4">
+                    Get instant answers about HDFC Mutual Fund schemes.
+                </p>
+                <!-- Selected Scheme Indicator -->
+                <div
+                    class="mb-4"
+                    id="selected-scheme-indicator"
+                    style="display: none"
+                >
+                    <span
+                        class="text-xs font-bold text-secondary uppercase tracking-widest"
+                        >Selected Scheme:</span
+                    >
+                    <span
+                        class="ml-2 text-sm font-semibold text-primary"
+                        id="selected-scheme-name"
+                    ></span>
+                </div>
+                <!-- Supported Schemes -->
+                <div
+                    class="flex flex-wrap justify-center gap-2"
+                    id="scheme-buttons"
+                >
+                    <button
+                        class="px-3 py-1 bg-surface-container rounded-full text-xs font-medium text-on-surface border border-outline-variant hover:border-primary transition-colors scheme-btn"
+                        data-scheme="HDFC Flexi Cap Fund"
+                    >
+                        HDFC Flexi Cap Fund
+                    </button>
+                    <button
+                        class="px-3 py-1 bg-surface-container rounded-full text-xs font-medium text-on-surface border border-outline-variant hover:border-primary transition-colors scheme-btn"
+                        data-scheme="HDFC Mid Cap Fund"
+                    >
+                        HDFC Mid Cap Fund
+                    </button>
+                    <button
+                        class="px-3 py-1 bg-surface-container rounded-full text-xs font-medium text-on-surface border border-outline-variant hover:border-primary transition-colors scheme-btn"
+                        data-scheme="HDFC Small Cap Fund"
+                    >
+                        HDFC Small Cap Fund
+                    </button>
+                    <button
+                        class="px-3 py-1 bg-surface-container rounded-full text-xs font-medium text-on-surface border border-outline-variant hover:border-primary transition-colors scheme-btn"
+                        data-scheme="HDFC Defence Fund"
+                    >
+                        HDFC Defence Fund
+                    </button>
+                    <button
+                        class="px-3 py-1 bg-surface-container rounded-full text-xs font-medium text-on-surface border border-outline-variant hover:border-primary transition-colors scheme-btn"
+                        data-scheme="HDFC Silver ETF Fund of Fund"
+                    >
+                        HDFC Silver ETF Fund of Fund
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-1 flex flex-col min-w-0 relative overflow-hidden">
+            <!-- Chat Conversation Area -->
+            <div class="flex-1 flex flex-col overflow-hidden">
+                <!-- Chat Header with Clear Button -->
+                <div class="flex justify-end px-4 md:px-8 py-2">
+                    <button
+                        class="flex items-center gap-2 px-3 py-1.5 bg-primary/10 text-primary rounded-lg text-sm font-semibold hover:bg-primary/20 transition-colors"
+                        id="clear-chat-btn"
+                    >
+                        <span
+                            class="material-symbols-outlined text-lg"
+                            data-icon="delete"
+                            >delete</span
+                        >
+                        Clear Chat
+                    </button>
+                </div>
+                <!-- Chat Messages -->
+                <div
+                    class="flex-1 overflow-y-auto custom-scrollbar px-4 md:px-8 pb-4"
+                    id="chat-container"
+                >
+                    <div
+                        class="max-w-[800px] mx-auto space-y-4"
+                        id="messages-container"
+                    >
+                        <!-- Compact Welcome Card -->
+                        <div
+                            class="bg-white border border-outline-variant rounded-xl p-4 shadow-sm"
+                            id="welcome-card"
+                        >
+                            <p class="text-sm text-secondary mb-3">
+                                Ask about:
+                            </p>
+                            <div
+                                class="flex flex-wrap gap-1.5"
+                                id="faq-categories"
+                            >
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="Expense Ratio"
+                                >
+                                    Expense Ratio
+                                </button>
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="Minimum SIP"
+                                >
+                                    Minimum SIP
+                                </button>
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="Riskometer"
+                                >
+                                    Riskometer
+                                </button>
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="Exit Load"
+                                >
+                                    Exit Load
+                                </button>
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="Fund Manager"
+                                >
+                                    Fund Manager
+                                </button>
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="AUM"
+                                >
+                                    AUM
+                                </button>
+                                <button
+                                    class="px-2.5 py-1 bg-primary/10 text-primary rounded-full text-xs font-semibold hover:bg-primary/20 transition-colors faq-btn"
+                                    data-category="Capital Gains"
+                                >
+                                    Capital Gains Statements
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Popular Questions -->
+                        <div class="space-y-2" id="popular-questions">
+                            <p
+                                class="text-xs font-bold text-secondary uppercase tracking-widest"
+                            >
+                                Popular Questions
+                            </p>
+                            <div
+                                class="flex flex-wrap gap-2"
+                                id="example-questions"
+                            >
+                                <button
+                                    class="px-4 py-2 bg-white border border-outline-variant rounded-full text-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm example-question-btn"
+                                    data-question="What is the expense ratio of HDFC Flexi Cap Fund?"
+                                >
+                                    What is the expense ratio of HDFC Flexi Cap
+                                    Fund?
+                                </button>
+                                <button
+                                    class="px-4 py-2 bg-white border border-outline-variant rounded-full text-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm example-question-btn"
+                                    data-question="What is the minimum SIP for HDFC Defence Fund?"
+                                >
+                                    What is the minimum SIP for HDFC Defence
+                                    Fund?
+                                </button>
+                                <button
+                                    class="px-4 py-2 bg-white border border-outline-variant rounded-full text-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm example-question-btn"
+                                    data-question="Who is the fund manager of HDFC Flexi Cap Fund?"
+                                >
+                                    Who is the fund manager of HDFC Flexi Cap
+                                    Fund?
+                                </button>
+                                <button
+                                    class="px-4 py-2 bg-white border border-outline-variant rounded-full text-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm example-question-btn"
+                                    data-question="What is the AUM of HDFC Mid Cap Fund?"
+                                >
+                                    What is the AUM of HDFC Mid Cap Fund?
+                                </button>
+                                <button
+                                    class="px-4 py-2 bg-white border border-outline-variant rounded-full text-sm text-on-surface hover:border-primary hover:text-primary transition-all shadow-sm example-question-btn"
+                                    data-question="How to download my capital gains statement?"
+                                >
+                                    How to download my capital gains statement?
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Input Area -->
+            <div
+                class="w-full px-4 md:px-8 py-4 bg-background/80 backdrop-blur-md border-t border-outline-variant flex-shrink-0"
+            >
+                <div class="max-w-[800px] mx-auto relative group">
+                    <input
+                        class="w-full h-12 pl-4 pr-14 bg-white border border-outline-variant rounded-xl shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/10 focus:border-primary transition-all text-base placeholder:text-secondary"
+                        placeholder="Ask about HDFC Mutual Funds..."
+                        type="text"
+                        id="user-input"
+                    />
+                    <button
+                        class="absolute right-3 top-1.5 w-9 h-9 bg-primary text-on-primary rounded-lg flex items-center justify-center hover:opacity-90 transition-opacity"
+                        id="send-btn"
+                    >
+                        <span
+                            class="material-symbols-outlined text-xl"
+                            data-icon="send"
+                            >send</span
+                        >
+                    </button>
+                </div>
+                <p class="text-center mt-3 text-xs text-secondary">
+                    AI can make mistakes. Please verify important details with
+                    official scheme documents.
+                </p>
+            </div>
+        </main>
+
+        <script>
+            // DOM Elements
+            const userInput = document.getElementById("user-input");
+            const sendBtn = document.getElementById("send-btn");
+            const chatContainer = document.getElementById("chat-container");
+            const messagesContainer =
+                document.getElementById("messages-container");
+            const exampleQuestions =
+                document.getElementById("example-questions");
+            const selectedSchemeIndicator = document.getElementById(
+                "selected-scheme-indicator",
+            );
+            const selectedSchemeName = document.getElementById(
+                "selected-scheme-name",
+            );
+            const schemeButtons = document.getElementById("scheme-buttons");
+
+            // Store selected scheme
+            let selectedScheme = null;
+
+            // Store original content on load
+            const originalMessagesHTML = messagesContainer.innerHTML;
+
+            const API_URL = "http://127.0.0.1:8000/ask";
+
+            // Simple micro-interaction for buttons
+            document.querySelectorAll("button").forEach((btn) => {
+                btn.addEventListener("mousedown", () =>
+                    btn.classList.add("scale-95"),
+                );
+                btn.addEventListener("mouseup", () =>
+                    btn.classList.remove("scale-95"),
+                );
+                btn.addEventListener("mouseleave", () =>
+                    btn.classList.remove("scale-95"),
+                );
+            });
+
+            // Generate question based on category and selected scheme
+            function generateQuestion(category) {
+                if (category === "Capital Gains") {
+                    return "How do I download my capital gains statement?";
+                }
+
+                if (!selectedScheme) {
+                    return null;
+                }
+
+                switch (category) {
+                    case "Expense Ratio":
+                        return `What is the expense ratio of ${selectedScheme}?`;
+                    case "Minimum SIP":
+                        return `What is the minimum SIP for ${selectedScheme}?`;
+                    case "Riskometer":
+                        return `What is the riskometer of ${selectedScheme}?`;
+                    case "Exit Load":
+                        return `What is the exit load of ${selectedScheme}?`;
+                    case "Fund Manager":
+                        return `Who is the fund manager of ${selectedScheme}?`;
+                    case "AUM":
+                        return `What is the AUM of ${selectedScheme}?`;
+                    default:
+                        return null;
+                }
+            }
+
+            // Send user message to API
+            async function sendMessage(question) {
+                // Add user message to chat
+                addUserMessage(question);
+                userInput.value = "";
+
+                // Add loading indicator
+                const loadingId = addLoadingMessage();
+
+                try {
+                    const response = await fetch(API_URL, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ question }),
+                    });
+
+                    const data = await response.json();
+
+                    // Remove loading indicator and add assistant message
+                    removeLoadingMessage(loadingId);
+                    addAssistantMessage(data.answer);
+
+                    // Scroll to bottom
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                } catch (error) {
+                    removeLoadingMessage(loadingId);
+                    addAssistantMessage(
+                        "Sorry, I encountered an error. Please try again later.",
+                    );
+                    console.error("Error:", error);
+                }
+            }
+
+            // Add user message to chat
+            function addUserMessage(text) {
+                const userDiv = document.createElement("div");
+                userDiv.className = "flex justify-end";
+                userDiv.innerHTML = `
+                <div class="bg-secondary-container text-on-secondary-container rounded-2xl rounded-tr-none px-4 py-2.5 max-w-[80%] chat-bubble-shadow">
+                    <p class="text-base">${text}</p>
+                </div>
+            `;
+                messagesContainer.appendChild(userDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+            // Add loading indicator
+            function addLoadingMessage() {
+                const id = "loading-" + Date.now();
+                const loadingDiv = document.createElement("div");
+                loadingDiv.id = id;
+                loadingDiv.className = "flex items-start gap-3";
+                loadingDiv.innerHTML = `
+                <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-on-primary text-base" data-icon="smart_toy">smart_toy</span>
+                </div>
+                <div class="bg-white border border-outline-variant rounded-2xl rounded-tl-none px-4 py-3 chat-bubble-shadow flex-1">
+                    <div class="loading-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            `;
+                messagesContainer.appendChild(loadingDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+                return id;
+            }
+
+            // Remove loading indicator
+            function removeLoadingMessage(id) {
+                const loadingElement = document.getElementById(id);
+                if (loadingElement) {
+                    loadingElement.remove();
+                }
+            }
+
+            // Add assistant message to chat
+            function addAssistantMessage(text) {
+                // Convert newlines to <br>
+                const formattedText = text.replace(/\n/g, "<br/>");
+
+                const assistantDiv = document.createElement("div");
+                assistantDiv.className =
+                    "flex items-start gap-3 animate-in fade-in slide-in-from-bottom-4 duration-500";
+                assistantDiv.innerHTML = `
+                <div class="w-7 h-7 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-on-primary text-base" data-icon="smart_toy">smart_toy</span>
+                </div>
+                <div class="bg-white border border-outline-variant rounded-2xl rounded-tl-none px-4 py-3 chat-bubble-shadow flex-1">
+                    <p class="text-base text-on-surface mb-3 leading-relaxed whitespace-pre-line">
+                        ${formattedText}
+                    </p>
+                    <div class="flex items-center gap-2 text-secondary mb-3">
+                        <span class="material-symbols-outlined text-sm" data-icon="description">description</span>
+                        <span class="text-xs italic">Last updated from sources: June 2026</span>
+                    </div>
+                    <div class="flex gap-2.5 border-t border-outline-variant pt-2.5">
+                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors copy-btn">
+                            <span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
+                            <span class="text-xs">Copy</span>
+                        </button>
+                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-lg" data-icon="thumb_up">thumb_up</span>
+                        </button>
+                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-lg" data-icon="thumb_down">thumb_down</span>
+                        </button>
+                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+                        </button>
+                    </div>
+                </div>
+            `;
+
+                // Add copy functionality
+                const copyBtn = assistantDiv.querySelector(".copy-btn");
+                copyBtn.addEventListener("click", () => {
+                    navigator.clipboard.writeText(text).then(() => {
+                        const originalText =
+                            copyBtn.querySelector("span.text-xs").textContent;
+                        copyBtn.querySelector("span.text-xs").textContent =
+                            "Copied!";
+                        setTimeout(() => {
+                            copyBtn.querySelector("span.text-xs").textContent =
+                                originalText;
+                        }, 2000);
+                    });
+                });
+
+                messagesContainer.appendChild(assistantDiv);
+            }
+
+            // Event listeners
+            sendBtn.addEventListener("click", () => {
+                if (userInput.value.trim()) {
+                    sendMessage(userInput.value.trim());
+                }
+            });
+
+            userInput.addEventListener("keypress", (e) => {
+                if (e.key === "Enter" && userInput.value.trim()) {
+                    sendMessage(userInput.value.trim());
+                }
+            });
+
+            // Scheme buttons
+            document.querySelectorAll(".scheme-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    // Update selected scheme
+                    selectedScheme = btn.dataset.scheme;
+
+                    // Update UI
+                    document.querySelectorAll(".scheme-btn").forEach((b) => {
+                        b.classList.remove(
+                            "bg-primary",
+                            "text-white",
+                            "border-primary",
+                        );
+                        b.classList.add(
+                            "bg-surface-container",
+                            "text-on-surface",
+                            "border-outline-variant",
+                        );
+                    });
+                    btn.classList.remove(
+                        "bg-surface-container",
+                        "text-on-surface",
+                        "border-outline-variant",
+                    );
+                    btn.classList.add(
+                        "bg-primary",
+                        "text-white",
+                        "border-primary",
+                    );
+
+                    // Show selected scheme indicator
+                    selectedSchemeName.textContent = selectedScheme;
+                    selectedSchemeIndicator.style.display = "block";
+                });
+            });
+
+            // FAQ category buttons
+            document.querySelectorAll(".faq-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const category = btn.dataset.category;
+                    const question = generateQuestion(category);
+
+                    if (!question && category !== "Capital Gains") {
+                        // Show "Please select a scheme first" message
+                        addAssistantMessage("Please select a scheme first.");
+                        return;
+                    }
+
+                    // Add highlight animation to button
+                    btn.classList.add("bg-primary", "text-white");
+                    setTimeout(() => {
+                        btn.classList.remove("bg-primary", "text-white");
+                    }, 200);
+
+                    // Send question
+                    sendMessage(question);
+                });
+            });
+
+            // Example questions
+            document
+                .querySelectorAll(".example-question-btn")
+                .forEach((btn) => {
+                    btn.addEventListener("click", () => {
+                        const question = btn.dataset.question;
+                        sendMessage(question);
+                    });
+                });
+
+            // Clear Chat button
+            document
+                .getElementById("clear-chat-btn")
+                .addEventListener("click", () => {
+                    if (
+                        confirm(
+                            "Clear all messages and start a new conversation?",
+                        )
+                    ) {
+                        // Restore original content
+                        messagesContainer.innerHTML = originalMessagesHTML;
+
+                        // Re-attach event listeners to the cloned elements
+                        const newExampleButtons =
+                            messagesContainer.querySelectorAll(
+                                ".example-question-btn",
+                            );
+                        newExampleButtons.forEach((btn) => {
+                            btn.addEventListener("click", () => {
+                                const question = btn.dataset.question;
+                                sendMessage(question);
+                            });
+                        });
+
+                        const newFaqButtons =
+                            messagesContainer.querySelectorAll(".faq-btn");
+                        newFaqButtons.forEach((btn) => {
+                            btn.addEventListener("click", () => {
+                                const category = btn.dataset.category;
+                                const question = generateQuestion(category);
+
+                                if (!question && category !== "Capital Gains") {
+                                    addAssistantMessage(
+                                        "Please select a scheme first.",
+                                    );
+                                    return;
+                                }
+
+                                btn.classList.add("bg-primary", "text-white");
+                                setTimeout(() => {
+                                    btn.classList.remove(
+                                        "bg-primary",
+                                        "text-white",
+                                    );
+                                }, 200);
+
+                                sendMessage(question);
+                            });
+                        });
+                    }
+                });
+        </script>
+    </body>
+</html>
