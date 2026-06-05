@@ -1,0 +1,30 @@
+# Git
+.git/
+.gitignore
+
+# Environment secrets
+.env
+
+# Large generated data — rebuilt by start.sh ingest pipeline
+data/
+
+# Python artefacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+
+# Test / IDE artefacts
+.pytest_cache/
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+tmp/
+
+# Docs and design (not needed at runtime)
+stitch/

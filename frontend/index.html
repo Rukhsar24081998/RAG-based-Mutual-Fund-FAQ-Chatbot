@@ -452,7 +452,14 @@
             // Store original content on load
             const originalMessagesHTML = messagesContainer.innerHTML;
 
-            const API_URL = "http://127.0.0.1:8000/ask";
+            // Local dev  → http://127.0.0.1:8000/ask
+            // Production → Railway URL (update RAILWAY_URL after deployment)
+            const RAILWAY_URL = "https://YOUR-APP.railway.app";
+            const API_URL =
+                window.location.hostname === "localhost" ||
+                window.location.hostname === "127.0.0.1"
+                    ? "http://127.0.0.1:8000/ask"
+                    : `${RAILWAY_URL}/ask`;
 
             // Simple micro-interaction for buttons
             document.querySelectorAll("button").forEach((btn) => {

@@ -1,0 +1,12 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Railway injects $PORT automatically — start.sh passes it to uvicorn
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3
+
+# Wait up to 5 minutes for first boot (ingest pipeline runs on cold start)
+healthcheckPath = "/health"
+healthcheckTimeout = 300
