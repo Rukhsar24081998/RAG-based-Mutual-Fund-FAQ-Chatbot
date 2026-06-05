@@ -515,6 +515,10 @@
                 // Add loading indicator
                 const loadingId = addLoadingMessage();
 
+                // AbortController for request timeout (45s covers HF cold starts)
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 45000);
+
                 try {
                     const response = await fetch(API_URL, {
                         method: "POST",
@@ -522,9 +526,20 @@
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({ question }),
+                        signal: controller.signal,
                     });
 
+                    clearTimeout(timeoutId);
+
+                    if (!response.ok) {
+                        throw new Error(`Server responded with status ${response.status}`);
+                    }
+
                     const data = await response.json();
+
+                    if (!data.answer) {
+                        throw new Error("Invalid response format from server");
+                    }
 
                     // Remove loading indicator and add assistant message
                     removeLoadingMessage(loadingId);
@@ -533,10 +548,22 @@
                     // Scroll to bottom
                     chatContainer.scrollTop = chatContainer.scrollHeight;
                 } catch (error) {
+                    clearTimeout(timeoutId);
                     removeLoadingMessage(loadingId);
-                    addAssistantMessage(
-                        "Sorry, I encountered an error. Please try again later.",
-                    );
+
+                    let errorMessage;
+                    if (error.name === "AbortError") {
+                        errorMessage =
+                            "The request timed out. The server may be waking up from idle. Please try again in a few seconds.";
+                    } else if (error.message.includes("Failed to fetch") || error.message.includes("NetworkError")) {
+                        errorMessage =
+                            "Unable to reach the server. Please check your internet connection and try again.";
+                    } else {
+                        errorMessage =
+                            "Sorry, I encountered an error. Please try again later.";
+                    }
+
+                    addAssistantMessage(errorMessage);
                     console.error("Error:", error);
                 }
             }

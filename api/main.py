@@ -1,10 +1,40 @@
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+
 from rag.guards import check_pii, check_advice, get_advice_refusal, get_pii_refusal
 from rag.assembler import generate_answer
+from scheduler import start_scheduler, stop_scheduler, get_scheduler_status
 
-app = FastAPI(title="HDFC Mutual Fund FAQ API")
+# ---------------------------------------------------------------------------
+# Logging configuration
+# ---------------------------------------------------------------------------
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s | %(levelname)-7s | %(name)s | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger("api")
+
+
+# ---------------------------------------------------------------------------
+# Lifespan — startup & shutdown hooks
+# ---------------------------------------------------------------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logger.info("Starting scheduler...")
+    start_scheduler()
+    yield
+    # Shutdown
+    logger.info("Stopping scheduler...")
+    stop_scheduler()
+
+
+app = FastAPI(title="HDFC Mutual Fund FAQ API", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -26,6 +56,12 @@ class QueryResponse(BaseModel):
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
+
+
+@app.get("/scheduler/status")
+def scheduler_status():
+    """Return current scheduler state: running/stopped, next run time, last run result."""
+    return get_scheduler_status()
 
 @app.post("/ask", response_model=QueryResponse)
 def ask_question(request: QueryRequest):
