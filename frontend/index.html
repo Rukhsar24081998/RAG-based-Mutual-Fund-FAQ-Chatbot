@@ -452,14 +452,17 @@
             // Store original content on load
             const originalMessagesHTML = messagesContainer.innerHTML;
 
-            // Local dev  → http://127.0.0.1:8000/ask
-            // Production → Render URL (update RENDER_URL after deployment)
-            const RENDER_URL = "https://YOUR-APP.onrender.com";
-            const API_URL =
+            // Local dev  → http://127.0.0.1:8000/ask  (uvicorn running locally)
+            // Production → Fly.io backend  (update BACKEND_URL after flyctl deploy)
+            const BACKEND_URL = "https://YOUR-APP.fly.dev";
+            const isLocal =
                 window.location.hostname === "localhost" ||
-                window.location.hostname === "127.0.0.1"
-                    ? "http://127.0.0.1:8000/ask"
-                    : `${RENDER_URL}/ask`;
+                window.location.hostname === "127.0.0.1" ||
+                window.location.hostname === "" || // file:// protocol
+                window.location.protocol === "file:";
+            const API_URL = isLocal
+                ? "http://127.0.0.1:8000/ask"
+                : `${BACKEND_URL}/ask`;
 
             // Simple micro-interaction for buttons
             document.querySelectorAll("button").forEach((btn) => {
