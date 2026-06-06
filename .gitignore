@@ -21,3 +21,4 @@ tmp/
 *.swo
 .vscode/
 .idea/
+data/chroma/
