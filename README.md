@@ -289,6 +289,52 @@ Submit a question and receive a structured answer.
 { "status": "ok" }
 ```
 
+### `GET /scheduler/status`
+
+Check scheduler state and next run times:
+```json
+{
+  "status": "running",
+  "timezone": "Asia/Kolkata",
+  "cron_expression": "0 2 1 * * (Asia/Kolkata)",
+  "jobs": [
+    {
+      "id": "daily_health_check",
+      "name": "Daily Health Check (10:00 AM IST)",
+      "next_run_time": "2026-06-07T04:30:00+00:00",
+      "trigger": "cron[hour='10', minute='0']"
+    },
+    {
+      "id": "monthly_data_refresh",
+      "name": "Monthly Data Refresh (1st of month, 02:00 AM IST)",
+      "next_run_time": "2026-07-01T20:30:00+00:00",
+      "trigger": "cron[day='1', hour='2', minute='0']"
+    }
+  ],
+  "last_run": {
+    "job": "monthly_data_refresh",
+    "status": "PASS",
+    "results": {...},
+    "finished_at": "2026-06-06T10:30:00Z"
+  }
+}
+```
+
+### `POST /scheduler/refresh-now`
+
+Manually trigger an immediate data refresh (admin only):
+```json
+{
+  "status": "completed",
+  "message": "Data refresh completed successfully",
+  "details": {
+    "job": "monthly_data_refresh",
+    "status": "PASS",
+    "duration_ms": 68600
+  }
+}
+```
+
 ---
 
 ## Sample Questions & Answers
@@ -311,6 +357,7 @@ Submit a question and receive a structured answer.
 |----------|-------------|
 | [`docs/Problemstatement.md`](docs/Problemstatement.md) | Original requirements, corpus inventory, build phases, and success criteria |
 | [`docs/phase-wise-architecture.md`](docs/phase-wise-architecture.md) | Full 12-phase technical architecture — data flow, component design, dependency rationale, sequence diagrams |
+| [`docs/data-refresh-guide.md`](docs/data-refresh-guide.md) | Automated and manual data refresh procedures, troubleshooting, and best practices |
 
 ---
 
@@ -329,12 +376,39 @@ Typeface: **Inter** · Spacing: 8pt grid · Shadows: ambient (`rgba(15,23,42,0.0
 
 ---
 
+## Data Refresh & Currency
+
+### Automated Monthly Refresh
+
+The system automatically refreshes data **on the 1st of every month at 02:00 AM IST** via APScheduler:
+
+1. Downloads latest Fund Facts PDFs from HDFC
+2. Re-extracts and re-chunks all documents
+3. Rebuilds ChromaDB vector embeddings
+4. Updates the retrieval index with fresh data
+
+### Manual Refresh
+
+Trigger an immediate refresh via REST API:
+```bash
+curl -X POST http://localhost:8000/scheduler/refresh-now
+```
+
+Or run the shell script:
+```bash
+./refresh_data.sh
+```
+
+See [`docs/data-refresh-guide.md`](docs/data-refresh-guide.md) for detailed instructions.
+
+---
+
 ## Future Enhancements
 
 | Priority | Enhancement | Description |
 |----------|-------------|-------------|
 | High | **Multi-AMC support** | Extend corpus and `SCHEME_DATA` to cover SBI MF, Mirae Asset, Axis, ICICI Prudential |
-| High | **Auto-refresh data** | Scheduled monthly re-ingest of Fund Facts PDFs to keep AUM and fund manager data current |
+| ~~High~~ | ~~**Auto-refresh data**~~ | ✅ **IMPLEMENTED** — Scheduled monthly re-ingest of Fund Facts PDFs keeps AUM and fund manager data current |
 | Medium | **Fund comparison** | Side-by-side factual comparison of two schemes (expense ratio, exit load, benchmark) |
 | Medium | **Citation URL per answer** | Surface the source document URL from the top RAG chunk in every response |
 | Medium | **Docker deployment** | Containerise the API and ship to Render or Fly.io |

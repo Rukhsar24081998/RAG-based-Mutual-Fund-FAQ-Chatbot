@@ -1,49 +1,49 @@
-HDFC Mutual Fund Facts (as per Fund Facts May 2026)
+HDFC Mutual Fund Facts (as per HDFC Fund website, June 2026)
 
 HDFC Flexi Cap Fund:
-- Expense Ratio (Direct Plan): 0.85%
+- Expense Ratio (Direct Plan): 0.68%
 - Minimum SIP Amount: ₹100
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
 - Benchmark Index: NIFTY 500 Index (Total Returns Index)
-- Riskometer Classification: Moderately High
+- Riskometer Classification: Very High
 - Fund Manager: Amit Ganatra (since February 01, 2026)
-- AUM (Assets Under Management): ₹1,00,479.23 crore
+- AUM (Assets Under Management): ₹1,01,821.82 crore (as on 31/05/2026)
 
 HDFC Mid Cap Fund:
-- Expense Ratio (Direct Plan): 0.80%
+- Expense Ratio (Direct Plan): 0.73%
 - Minimum SIP Amount: ₹100
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
-- Benchmark Index: Nifty Midcap 150 Index (Total Returns Index)
+- Benchmark Index: NIFTY Midcap 150 Index (Total Returns Index)
 - Riskometer Classification: Very High
 - Fund Manager: Chirag Setalvad (since June 25, 2007)
-- AUM (Assets Under Management): ₹94,744.72 crore
+- AUM (Assets Under Management): ₹97,350.48 crore (as on 31/05/2026)
 
 HDFC Small Cap Fund:
-- Expense Ratio (Direct Plan): 0.88%
+- Expense Ratio (Direct Plan): 0.73%
 - Minimum SIP Amount: ₹100
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
 - Benchmark Index: BSE 250 SmallCap Index (TRI)
 - Riskometer Classification: Very High
 - Fund Manager: Chirag Setalvad (since June 28, 2014)
-- AUM (Assets Under Management): ₹38,168.18 crore
+- AUM (Assets Under Management): ₹38,809.48 crore (as on 31/05/2026)
 
 HDFC Defence Fund:
-- Expense Ratio (Direct Plan): 1.15%
-- Minimum SIP Amount: ₹500
+- Expense Ratio (Direct Plan): 0.83%
+- Minimum SIP Amount: ₹100
 - Exit Load: 1% if redeemed within 1 year, 0% after 1 year
 - Benchmark Index: Nifty India Defence Index TRI (Total Returns Index)
 - Riskometer Classification: Very High
 - Fund Manager: Rahul Baijal & Priya Ranjan (w.e.f. April 18, 2025)
-- AUM (Assets Under Management): ₹9,123.61 crore
+- AUM (Assets Under Management): ₹9,724.27 crore (as on 31/05/2026)
 
 HDFC Silver ETF Fund of Fund:
-- Expense Ratio (Direct Plan): 0.25%
+- Expense Ratio (Direct Plan): 0.21%
 - Minimum SIP Amount: ₹100
-- Exit Load: 0.25% if redeemed within 30 days, 0% after 30 days
+- Exit Load: 1% if redeemed within 15 days, 0% after 15 days
 - Benchmark Index: Domestic Price of Silver (based on MCX)
-- Riskometer Classification: Moderately High
-- Fund Manager: Anil Bamboli
-- AUM (Assets Under Management): ₹8,542 crore
+- Riskometer Classification: Very High
+- Fund Manager: Nandita Menezes & Arun Agarwal
+- AUM (Assets Under Management): ₹4,893.86 crore (as on 31/05/2026)
 
 How to Download Statements:
 - To download your capital gains statement or account statement:

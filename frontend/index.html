@@ -691,35 +691,62 @@
                         <span class="material-symbols-outlined text-sm" data-icon="description">description</span>
                         <span class="text-xs italic">Last updated from sources: June 2026</span>
                     </div>
-                    <div class="flex gap-2.5 border-t border-outline-variant pt-2.5">
-                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors copy-btn">
+                    <div class="flex items-center border-t border-outline-variant pt-2.5">
+                        <button class="flex items-center gap-1.5 px-3 py-1.5 text-secondary hover:text-primary hover:bg-primary/5 rounded-lg transition-all copy-btn">
                             <span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
-                            <span class="text-xs">Copy</span>
-                        </button>
-                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-lg" data-icon="thumb_up">thumb_up</span>
-                        </button>
-                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-lg" data-icon="thumb_down">thumb_down</span>
-                        </button>
-                        <button class="flex items-center gap-1 text-secondary hover:text-primary transition-colors">
-                            <span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+                            <span class="text-xs font-medium">Copy</span>
                         </button>
                     </div>
                 </div>
             `;
 
-                // Add copy functionality
+                // Add enhanced copy functionality with complete context
                 const copyBtn = assistantDiv.querySelector(".copy-btn");
                 copyBtn.addEventListener("click", () => {
-                    navigator.clipboard.writeText(text).then(() => {
-                        const originalText =
-                            copyBtn.querySelector("span.text-xs").textContent;
-                        copyBtn.querySelector("span.text-xs").textContent =
-                            "Copied!";
+                    // Build comprehensive copy content
+                    let copyContent = `Answer: ${text}`;
+                    
+                    // Add citation URL if available
+                    if (citationUrl && citationUrl.startsWith("https://")) {
+                        copyContent += `\n\nSource: ${citationUrl}`;
+                    }
+                    
+                    // Add source documents if available
+                    if (sourceDocuments && sourceDocuments.length > 0) {
+                        copyContent += `\n\nSource Documents:`;
+                        sourceDocuments.slice(0, 3).forEach((doc, index) => {
+                            if (doc.url && doc.url.startsWith("https://")) {
+                                copyContent += `\n${index + 1}. ${doc.type}${doc.scheme ? ' - ' + doc.scheme : ''}: ${doc.url}`;
+                            }
+                        });
+                    }
+                    
+                    // Add last updated
+                    copyContent += `\n\nLast updated from sources: June 2026`;
+                    
+                    navigator.clipboard.writeText(copyContent).then(() => {
+                        const originalHtml = copyBtn.innerHTML;
+                        copyBtn.innerHTML = `
+                            <span class="material-symbols-outlined text-lg" data-icon="check">check</span>
+                            <span class="text-xs font-medium">Copied!</span>
+                        `;
+                        copyBtn.classList.add("text-primary", "bg-primary/10");
+                        copyBtn.classList.remove("text-secondary");
+                        
                         setTimeout(() => {
-                            copyBtn.querySelector("span.text-xs").textContent =
-                                originalText;
+                            copyBtn.innerHTML = originalHtml;
+                            copyBtn.classList.remove("text-primary", "bg-primary/10");
+                            copyBtn.classList.add("text-secondary");
+                        }, 2000);
+                    }).catch(err => {
+                        console.error('Failed to copy:', err);
+                        const originalHtml = copyBtn.innerHTML;
+                        copyBtn.innerHTML = `
+                            <span class="material-symbols-outlined text-lg" data-icon="error">error</span>
+                            <span class="text-xs font-medium">Failed</span>
+                        `;
+                        setTimeout(() => {
+                            copyBtn.innerHTML = originalHtml;
                         }, 2000);
                     });
                 });

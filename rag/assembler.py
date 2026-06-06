@@ -47,51 +47,52 @@ HDFC_PORTAL_URL = "https://www.hdfcfund.com"
 CITATION_UNAVAILABLE = "Source unavailable. Please verify with official scheme documents."
 
 # Define scheme data from custom facts for structured access
+# UPDATED: June 6, 2026 - Synced with custom_facts.txt
 SCHEME_DATA = {
     "HDFC Flexi Cap Fund": {
-        "expense_ratio": "0.85%",
+        "expense_ratio": "0.68%",
         "minimum_sip": "₹100",
         "exit_load": "An exit load of 1% is applicable if units are redeemed within 1 year from the date of allotment.",
         "benchmark": "NIFTY 500 Index (Total Returns Index)",
-        "riskometer": "Moderately High",
+        "riskometer": "Very High",
         "fund_manager": "Amit Ganatra (since February 01, 2026)",
-        "aum": "1,00,479.23",
+        "aum": "1,01,821.82",
     },
     "HDFC Mid Cap Fund": {
-        "expense_ratio": "0.80%",
+        "expense_ratio": "0.73%",
         "minimum_sip": "₹100",
         "exit_load": "An exit load of 1% is applicable if units are redeemed within 1 year from the date of allotment.",
-        "benchmark": "Nifty Midcap 150 Index (Total Returns Index)",
+        "benchmark": "NIFTY Midcap 150 Index (Total Returns Index)",
         "riskometer": "Very High",
         "fund_manager": "Chirag Setalvad (since June 25, 2007)",
-        "aum": "94,744.72",
+        "aum": "97,350.48",
     },
     "HDFC Small Cap Fund": {
-        "expense_ratio": "0.88%",
+        "expense_ratio": "0.73%",
         "minimum_sip": "₹100",
         "exit_load": "An exit load of 1% is applicable if units are redeemed within 1 year from the date of allotment.",
         "benchmark": "BSE 250 SmallCap Index (TRI)",
         "riskometer": "Very High",
         "fund_manager": "Chirag Setalvad (since June 28, 2014)",
-        "aum": "38,168.18",
+        "aum": "38,809.48",
     },
     "HDFC Defence Fund": {
-        "expense_ratio": "1.15%",
-        "minimum_sip": "₹500",
+        "expense_ratio": "0.83%",
+        "minimum_sip": "₹100",
         "exit_load": "An exit load of 1% is applicable if units are redeemed within 1 year from the date of allotment.",
         "benchmark": "Nifty India Defence Index TRI (Total Returns Index)",
         "riskometer": "Very High",
         "fund_manager": "Rahul Baijal & Priya Ranjan (w.e.f. April 18, 2025)",
-        "aum": "9,123.61",
+        "aum": "9,724.27",
     },
     "HDFC Silver ETF Fund of Fund": {
-        "expense_ratio": "0.25%",
+        "expense_ratio": "0.21%",
         "minimum_sip": "₹100",
-        "exit_load": "An exit load of 0.25% is applicable if units are redeemed within 30 days from the date of allotment.",
+        "exit_load": "An exit load of 1% is applicable if units are redeemed within 15 days from the date of allotment.",
         "benchmark": "Domestic Price of Silver (based on MCX)",
-        "riskometer": "Moderately High",
-        "fund_manager": "Anil Bamboli",
-        "aum": "8,542",
+        "riskometer": "Very High",
+        "fund_manager": "Nandita Menezes & Arun Agarwal",
+        "aum": "4,893.86",
     },
 }
 

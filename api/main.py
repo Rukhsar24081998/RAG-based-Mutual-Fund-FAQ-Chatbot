@@ -72,6 +72,36 @@ def scheduler_status():
     """Return current scheduler state: running/stopped, next run time, last run result."""
     return get_scheduler_status()
 
+
+@app.post("/scheduler/refresh-now")
+def trigger_manual_refresh():
+    """
+    Manually trigger an immediate data refresh.
+    
+    This endpoint allows administrators to force a data refresh without waiting
+    for the scheduled monthly job. Useful after detecting outdated information.
+    
+    WARNING: This operation can take 5-10 minutes and will temporarily increase
+    server load. The API remains available during refresh.
+    """
+    try:
+        from scheduler.jobs import monthly_data_refresh
+        
+        logger.info("Manual data refresh triggered via API")
+        result = monthly_data_refresh()
+        
+        return {
+            "status": "completed",
+            "message": "Data refresh completed successfully",
+            "details": result
+        }
+    except Exception as e:
+        logger.exception("Manual data refresh failed")
+        raise HTTPException(
+            status_code=500,
+            detail=f"Data refresh failed: {str(e)}"
+        )
+
 @app.post("/ask", response_model=QueryResponse)
 def ask_question(request: QueryRequest):
     question = request.question.strip()

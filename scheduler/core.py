@@ -14,16 +14,19 @@ from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import pytz
 
-from scheduler.jobs import daily_health_check
+from scheduler.jobs import daily_health_check, monthly_data_refresh
 
 # ---------------------------------------------------------------------------
 # Configuration
 # ---------------------------------------------------------------------------
-# Cron: 10:00 AM IST daily
-# Equivalent cron expression:  0 10 * * *  (Asia/Kolkata)
+# Cron: 10:00 AM IST daily for health check
+# Cron: 02:00 AM IST on 1st of every month for data refresh
 IST = pytz.timezone("Asia/Kolkata")
 DAILY_CRON_HOUR = 10
 DAILY_CRON_MINUTE = 0
+MONTHLY_CRON_DAY = 1
+MONTHLY_CRON_HOUR = 2
+MONTHLY_CRON_MINUTE = 0
 
 # Module-level singleton
 _scheduler: Optional[BackgroundScheduler] = None
@@ -100,14 +103,29 @@ def start_scheduler() -> BackgroundScheduler:
             name="Daily Health Check (10:00 AM IST)",
             replace_existing=True,
         )
+        
+        scheduler.add_job(
+            func=_job_wrapper(monthly_data_refresh),
+            trigger=CronTrigger(
+                day=MONTHLY_CRON_DAY,
+                hour=MONTHLY_CRON_HOUR,
+                minute=MONTHLY_CRON_MINUTE,
+                timezone=IST,
+            ),
+            id="monthly_data_refresh",
+            name="Monthly Data Refresh (1st of month, 02:00 AM IST)",
+            replace_existing=True,
+        )
 
         scheduler.start()
         _scheduler = scheduler
 
-        next_run = scheduler.get_job("daily_health_check").next_run_time
+        health_next_run = scheduler.get_job("daily_health_check").next_run_time
+        refresh_next_run = scheduler.get_job("monthly_data_refresh").next_run_time
         logger.info(
-            "Scheduler started — daily_health_check next run: %s",
-            next_run.isoformat() if next_run else "N/A",
+            "Scheduler started — daily_health_check next run: %s, monthly_data_refresh next run: %s",
+            health_next_run.isoformat() if health_next_run else "N/A",
+            refresh_next_run.isoformat() if refresh_next_run else "N/A",
         )
 
         return scheduler
